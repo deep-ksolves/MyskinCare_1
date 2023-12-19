@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mysm_component_user,access_mysm_component_user,model_mysm_component,base.group_user,1,0,0,0
+access_mysm_component_manager,access_mysm_component_manager,model_mysm_component,stock.group_stock_manager,1,1,1,1
+access_mysm_component_composition_user,access_mysm_component_composition_user,model_mysm_component_composition,base.group_user,1,0,0,0
+access_mysm_component_composition_manager,access_mysm_component_composition_manager,model_mysm_component_composition,stock.group_stock_manager,1,1,1,1

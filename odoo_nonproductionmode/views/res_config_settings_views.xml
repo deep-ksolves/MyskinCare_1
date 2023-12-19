@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="95"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Non-Production Mode" data-key="odoo_nonproductionmode" string="Non-Production Mode">
+                    <h2>Non-Production Mode</h2>
+                    <div class="row mt16 o_settings_container">
+                         <div class="col-12 col-lg-8 o_setting_box" >
+                                <div class="">
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <field name="is_non_production_mode" widget="upgrade_boolean" readonly="1"/>
+                                            <label string="Non-Production mode activated" for="is_non_production_mode"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label string="Default Password" for="user_password"/>
+                                            <field name="user_password"/>
+                                         </div>
+                                        
+                                        <div class="row mt16">
+                                            <label string="Custom Queries" for="custom_sql"/>
+                                            <field name="custom_sql"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label string="Header color" for="header_color"/>
+                                            <field name="header_color" widget="color"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <button attrs="{'invisible': [('is_non_production_mode','=', True)]}" name="confirm_activate_non_prod_mode" string="Enter Non-Production Mode" class="btn-primary" type="object"/> 
+                        <button attrs="{'invisible': [('is_non_production_mode','=', False)]}" name="confirm_deactivate_non_prod_mode" string="Exit Non-Production Mode" class="btn-primary" type="object"/> 
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+ -->
+
+    <record id="none_production_form" model="ir.ui.view">
+        <field name="name">none.production.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority">2000</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                         <field name="is_non_production_mode" widget="upgrade_boolean" readonly="1" string="Non-Production mode activated" />
+                         <field name="user_password" string="Default Password" />
+                         <field name="custom_sql" string="Custom Queries" />
+                         <field name="header_color" widget="color" string="Header color" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Save" type="object" name="save_wizard_form" class="btn-primary" />
+                    <button attrs="{'invisible': [('is_non_production_mode','=', True)]}" name="confirm_activate_non_prod_mode" string="Enter Non-Production Mode" class="btn-primary" type="object"/> 
+                    <button attrs="{'invisible': [('is_non_production_mode','=', False)]}" name="confirm_deactivate_non_prod_mode" string="Exit Non-Production Mode" class="btn-primary" type="object"/> 
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="confirm_enter_to_none_production_form" model="ir.ui.view">
+        <field name="name">confirm.enter.to.none.production.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority">2000</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <p><b>You are on : <field name="db_name" readonly="1" nolabel="1"/></b></p>
+                    <p><b>This will update the database to remove critical production data.</b></p>
+                    <p>Are you sure you want to proceed ?</p>
+                </sheet>
+                <footer>
+                    <button string="OOPS, NO!" class="btn-primary" special="cancel"/>
+                    <button name="activate_non_prod_mode" string="YES, I UNDERSTAND THE RISK" type="object" class="btn-danger"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="confirm_enter_to_production_form" model="ir.ui.view">
+        <field name="name">confirm.enter.to.production.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority">2001</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <p><b>By existing the Non-production mode, some setting will be reverted</b></p>
+                    <p>
+                        <ul>
+                            <li>res.partner email addresses</li>
+                            <li>unarchive email server</li>
+                        </ul>
+                    </p>
+                    <p><b>The setting below will stay as they are currenty</b></p>
+                    <p>
+                        <ul>
+                            <li>Custom SQL queries</li>
+                            <li>User Password</li>
+                        </ul>
+                    </p>
+                </sheet>
+                <footer>
+                    <button string="OOPS, NO!" class="btn-primary" special="cancel"/>
+                    <button name="deactivate_non_prod_mode" string="YES, I UNDERSTAND THE RISK" type="object" class="btn-danger"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <template id="webclient_bootstrap" name="odoo_nonproductionmode webclient_bootstrap" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//t[@t-set='head_web']" position="inside">
+           <t t-if="request.env['ir.config_parameter'].sudo().get_param('is_non_production_mode') == 'True'">
+               <style>
+                   .o_main_navbar {
+                       background-color:  <t t-esc="request.env['ir.config_parameter'].sudo().get_param('header_color')"/>;
+                       border-color: rgb(193 169 149 / 0%);
+                   }
+               </style>
+           </t>
+        </xpath>
+    </template>
+
+     <record id="action_non_prod_wizard" model="ir.actions.act_window">
+        <field name="name">Non-Production Mode Wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="target">new</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="none_production_form"/>
+        <field name="context">{}</field>
+    </record>
+    <menuitem 
+        id="menu_non_productin_mode" 
+        name="Non-Production Mode" 
+        parent="base.menu_administration" 
+        action="action_non_prod_wizard" 
+        sequence="6"
+        />
+
+</odoo>

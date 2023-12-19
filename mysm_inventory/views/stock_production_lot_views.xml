@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_production_lot_form_view_inherit_ribbon" model="ir.ui.view">
+        <field name="name">stock.production.lot.form.view.inherit</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="after">
+                <field name="lot_ribbon_id" invisible="1"/>
+                <div class="ribbon ribbon-top-right o_widget" attrs="{'invisible': [('lot_ribbon_id', '=', False)]}">
+                    <field name="ribbon_html" style="width: 150px !important; height: 150px !important;"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

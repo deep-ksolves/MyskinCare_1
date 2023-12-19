@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_maintenance_criticality_tree" model="ir.ui.view">
+        <field name="name">maintenance.criticality.tree</field>
+        <field name="model">maintenance.criticality</field>
+        <field name="arch" type="xml">
+            <tree string="Tree Criticality" editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_maintenance_criticality_form" model="ir.ui.view">
+        <field name="name">maintenance.criticality.form</field>
+        <field name="model">maintenance.criticality</field>
+        <field name="arch" type="xml">
+            <form string="Form Criticality">
+            <sheet>
+                <group>
+                    <field name="sequence" invisible="1"/>
+                    <field name="name"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_maintenance_criticality_filter" model="ir.ui.view">
+        <field name="name">maintenance.criticality.filter</field>
+        <field name="model">maintenance.criticality</field>
+        <field name="arch" type="xml">
+            <search string="Search Criticality">
+                <field name="name" filter_domain="[('name','ilike', self)]" string="Name"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_maintenance_criticality_tree" model="ir.actions.act_window">
+        <field name="name">Criticality</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">maintenance.criticality</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help">
+            Add a new Criticality
+        </field>
+    </record>
+
+    <menuitem id="menu_action_maintenance_criticality_tree"
+                action="action_maintenance_criticality_tree"
+                parent="maintenance.menu_maintenance_configuration"
+                groups="maintenance.group_equipment_manager"
+                sequence="20"/>
+</odoo>

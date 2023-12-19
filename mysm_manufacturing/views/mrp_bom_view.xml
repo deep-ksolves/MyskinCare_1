@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_bom_inherit_view_form" model="ir.ui.view">
+        <field name="name">mrp.bom.view.form.inherit</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="before">
+                <field name="total_component_percentage" invisible="1"/>
+                <p attrs="{'invisible': [('total_component_percentage', '==', 100.0)]}" style="color: red;">
+                    Total Percentage is not equal to 100%, please check your formulation again!
+                </p>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button string="COMPUTE" name="compute_button" type="object" class="oe_highlight"/>
+                    <button string='update formulation' name='update_formulation_button' type="object" class="oe_highlight"/>
+                </header>
+            </xpath>
+            <xpath expr="//page[@name='components']//field[@name='product_qty']" position="before">
+                <field name="rm_source_id" domain="[('field_name', '=', 'raw.material.source')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                <field name="percentage" sum="Total Percentage"/>
+            </xpath>
+            <xpath expr="//page[@name='components']//field[@name='product_id']" position="attributes">
+                <attribute name="options">{'no_create': True, 'no_create_edit': True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bom_line_ids']" position="before">
+                <field name="same_category" invisible='1'/>
+                <p style="color: red" class='text-center' attrs="{'invisible': [('same_category','=', True)]}">
+                    Relationship between Percentage and Quantity will not work if you add a component which has a difference Unit of Measure from the finished product
+                </p>
+            </xpath>
+            <xpath expr="//page[@name='components']" position="after">
+                <page name="allergen" string="Allergen">
+                    <field name="allergen_composition_ids" readonly="1">
+                        <tree string='Allergen' editable='bottom'>
+                            <field name="allergen_id" readonly="1"/>
+                            <field name="product_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="percent_formulation" readonly="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

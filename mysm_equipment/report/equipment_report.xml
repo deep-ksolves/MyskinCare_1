@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="mysm_equipment_report_doc">
+          <t t-call="web.basic_layout">
+            <div class="page">
+                <div class="row">
+                    <table class="table-condensed" width="100%">
+                        <colgroup>
+                            <col style="width:100%"/>
+                        </colgroup>
+                        <tr style="background-color:#b8deff;">
+                            <td style="font-size:23px;text-align:center;font-style: italic;">
+                                Maintenance Equipment Information Report
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row" style="padding-top:20px;">
+                    <table class="table-condensed" width="100%" >
+                        <colgroup>
+                            <col style="width:30%"/>    
+                            <col style="width:35%"/>
+                            <col style="width:35%"/>
+                        </colgroup>
+                        <tr>
+                            <td style="font-size:15px;text-align:center">
+                                HS Code
+                            </td>
+                            <td style="font-size:15px;text-align:center">
+                                Product Image
+                            </td>
+                            <td style="font-size:15px;text-align:center">
+                                Product Image Package
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center" align="center" valign="top">
+                                <img t-if="o.sku_name" t-att-src="image_data_uri(o.generate_qr_code())" 
+                                    style="max-height:100pt;max-width:100%;" alt="Qr Code"/>
+                            </td>
+                            <td style="text-align:center"  align="center" valign="top">
+                                <img t-if="o.image_1920" t-att-src="image_data_uri(o.image_1920)" 
+                                    style="max-height:400pt;max-width:100%;" alt="Image"/>
+                            </td>
+                            <td style="text-align:center"  align="center" valign="top">
+                                <img t-if="o.image_package" t-att-src="image_data_uri(o.image_package)" 
+                                    style="max-height:400pt;max-width:100%;" alt="Image"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row" style="padding-top:25px;">
+                    <table class="table-condensed" width="100%">
+                        <colgroup>
+                            <col style="width:5%"/>
+                            <col style="width:20%"/>    
+                            <col style="width:75%"/>
+                        </colgroup>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:15px;">
+                            <td></td>
+                            <td>
+                                Equipment Name 
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.name"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:15px;">
+                            <td></td>
+                            <td>
+                                Used in Location
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.location"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:15px;">
+                            <td></td>
+                            <td>
+                                Equipment Description
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.note"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="row" style="padding-top:15px;">
+                    <table class="table-condensed" width="100%">
+                        <colgroup>
+                            <col style="width:5%"/>
+                            <col style="width:20%"/>    
+                            <col style="width:25%"/>
+                            <col style="width:5%"/>
+                            <col style="width:20%"/>    
+                            <col style="width:25%"/>
+                        </colgroup>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td>
+                                SKU Code
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.sku_name"/>
+                            </td>
+
+                            <td></td>
+                            <td>
+                                Criticality
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.criticality_id" t-field="o.criticality_id.name"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td>
+                                Equipment category
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.category_id" t-field="o.category_id.name"/>
+                            </td>
+    
+                            <td></td>
+                            <td>
+                                Used by
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.equipment_assign_to"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td>
+                                Employee Name
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.employee_id" t-field="o.employee_id.name"/>
+                            </td>
+    
+                            <td></td>
+                            <td>
+                                Maintenance Team
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.maintenance_team_id" t-field="o.maintenance_team_id.name"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td>
+                                Technician
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.technician_user_id" t-field="o.technician_user_id.name"/>
+                            </td>
+
+                            <td></td>
+                            <td>
+                                Work Centre
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.workcenter_id" t-field="o.workcenter_id.name"/>
+                            </td>
+    
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="row" style="padding-top:25px;">
+                    <table class="table-condensed" width="100%">
+                        <colgroup>
+                            <col style="width:100%"/>
+                        </colgroup>
+                        <tr style="background-color:#8ac9ff;">
+                            <td style="font-size:23px;text-align:center;font-style: italic;">
+                                Product Information
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="row" style="padding-top:15px;">
+                    <table class="table-condensed" width="100%">
+                        <colgroup>
+                            <col style="width:5%"/>
+                            <col style="width:20%"/>    
+                            <col style="width:25%"/>
+                            <col style="width:5%"/>
+                            <col style="width:20%"/>    
+                            <col style="width:25%"/>
+                        </colgroup>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td>
+                                Vendor
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.partner_id" t-field="o.partner_id.name"/>
+                            </td>
+
+                            <td></td>
+                            <td>
+                                Vendor Ref
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.partner_ref"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td>
+                                Model
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.model"/>
+                            </td>
+    
+                            <td></td>
+                            <td>
+                                Serial Nr.
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.serial_no"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td>
+                                Effective Date
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.effective_date" t-esc="o.effective_date.strftime('%d/%b/%Y')"/>
+                            </td>
+    
+                            <td></td>
+                            <td>
+                                Cost
+                            </td>
+                            <td class="text-muted">
+                                : <span t-field="o.cost"/>
+                            </td>
+                        </tr>
+                        <tr style="font-size:14px;text-align:left;padding-bottom:10px;">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+    
+                            <td></td>
+                            <td>
+                                Warranty Ex. Date
+                            </td>
+                            <td class="text-muted">
+                                : <span t-if="o.warranty_date" t-esc="o.warranty_date.strftime('%d/%b/%Y')"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="footer">
+                <div class="row">
+                    <div name="footer_left_column" class="col-8 text-left">
+                    </div>
+                    <div name="footer_right_column" class="col-4 text-right">
+                        <div name="pager" t-if="report_type == 'pdf'">
+                            <!-- Page: <span class="page"/> / <span class="topage"/> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </t>
+        </template>
+
+        <template id="mysm_equipment_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="mysm_equipment.mysm_equipment_report_doc" t-lang="o.technician_user_id.lang or o.env.lang"/>
+                </t>
+            </t>
+        </template>
+
+        <!-- Paper Format -->
+    <record id="paperformat_equipment_report" model="report.paperformat">
+        <field name="name">European A4 low margin Equipment</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">7</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">80</field>
+    </record>
+
+    <report
+        id="report_equipment_report"
+        string="Equipment Report (PDF)"
+        model="maintenance.equipment"
+        report_type="qweb-pdf"
+        name="mysm_equipment.mysm_equipment_report"
+        file="mysm_equipment.mysm_equipment_report"
+        print_report_name="'Equipment %s' % (object.sku_name or '')"
+        paperformat="mysm_equipment.paperformat_equipment_report"
+    />
+    </data>
+</odoo>

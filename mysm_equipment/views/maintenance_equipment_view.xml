@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="hr_equipment_view_form_criticality" model="ir.ui.view">
+			<field name="name">hr.equipment.view.form.criticality</field>
+			<field name="model">maintenance.equipment</field>
+			<field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+			<field name="arch" type="xml">
+                <xpath expr="//group/group[2]" position="inside">
+                    <field name="criticality_id" required="1" options="{'no_quick_create': True, 'no_create': True}"/>
+				</xpath>
+                <xpath expr="//field[@name='category_id']" position="before">
+                    <field name="sku_name" required="1"/>
+                </xpath>
+                <xpath expr="//widget[@name='web_ribbon']" position="after">
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{&quot;zoom&quot;: true, &quot;preview_image&quot;:&quot;image_1920&quot;}"/>
+					<field name="image_package" widget="image" class="oe_avatar" options="{&quot;zoom&quot;: true, &quot;preview_image&quot;:&quot;image_package&quot;}"/>
+                </xpath>
+	        </field>
+		</record>
+		<record id="hr_equipment_view_tree_optional" model="ir.ui.view">
+			<field name="name">hr.equipment.view.tree.optional</field>
+			<field name="model">maintenance.equipment</field>
+			<field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='assign_date']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='serial_no']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='technician_user_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='category_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='company_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='activity_exception_decoration']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='employee_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='department_id']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='message_needaction']" position="after">
+					<field name="sku_name" optional="show"/>
+					<field name="name" optional="show"/>
+					<field name="category_id" optional="show"/>
+					<field name="note" optional="show" string="Equipment Description"/>
+					<field name="equipment_assign_to" optional="show"/>
+					<field name="location" optional="show"/>
+					<field name="model" optional="show"/>
+					<field name="serial_no" optional="show"/>
+				</xpath>
+	        </field>
+		</record>
+		
+	</data>
+	<record id="maintenance.hr_equipment_action" model="ir.actions.act_window">
+		<field name="res_model">maintenance.equipment</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+</odoo>

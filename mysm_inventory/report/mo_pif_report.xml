@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="product_mo_pif_finished_product_report_document">
+            <t t-set="product" t-value="doc.product_id"/>
+            <t t-call="mysm_inventory.pif_layout_report">
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #7dcbf1;">
+                    <div class="col-12">
+                        PIF Report for finished product
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">Brand Name:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="product.brand_name_id.name"/></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">MySM SKU Code:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="product.default_code"/></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">Product Name:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="product.name"/></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">Company Name:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="''"/></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">Customer Name:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="''"/></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">Product description:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="product.product_description"/></p>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4">
+                                <p class="mb-2">MOQ for production:  <t t-esc="product.seller_ids[0].min_qty if product.seller_ids else ''"/></p>
+                            </div>
+                            <div class="col-4">
+                                <p class="mb-2">Red Level:  <t t-esc="product.reordering_min_qty"/></p>
+                            </div>
+                            <div class="col-4">
+                                <p class="mb-2">Green Level:  <t t-esc="product.reordering_max_qty"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <img t-att-src="image_data_uri(product.generate_qr_code())"
+                            style="height:auto;max-width:100%;z-index:-1;"
+                            alt="QR Code"/>
+                    </div>
+                </div>
+                <div class="row mb-2" style="height: 300px">
+                    <div class="col-4" style="text-align: center;">
+                        <p class="mb-2">Product image without cartons:</p>
+                        <img t-if="product.image_1920" t-att-src="image_data_uri(product.image_1920)"
+                            style="max-width: 100%;max-height:100%;object-fit: contain;height: 260px;"
+                            alt="Product image without cartons"/>
+                    </div>
+                    <t t-set="len_product_images" t-value="len(product.product_template_image_ids)"/>
+                    <div class="col-4" style="text-align: center;">
+                        <p class="mb-2">Product image without cartons:</p>
+                        <img t-if="product.product_template_image_ids" t-att-src="image_data_uri(product.product_template_image_ids[0].image_1920)"
+                            style="max-width: 100%;max-height:100%;object-fit: contain;height: 260px;"
+                            alt="Product image without cartons"/>
+                    </div>
+                    <div class="col-4" style="text-align: center;">
+                        <p class="mb-2">Product image packed already in carton:</p>
+                        <img t-if="len_product_images > 1" t-att-src="image_data_uri(product.product_template_image_ids[1].image_1920)"
+                            style="max-width: 100%;max-height:100%;object-fit: contain;height: 240px;"
+                            alt="Product image packed already in carton"/>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Product Volume:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.product_volume"/> ml</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Product Net Weight:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.product_net_weight"/> g</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Product Gross Weight:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.product_gross_weight"/> g</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Product Dimensions:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.product_dimensions"/> mm</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Report Date &amp; Time:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="datetime.datetime.utcnow().strftime('%d-%m-%Y %H:%M:%S')"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #7dcbf1;">
+                    <div class="col-12">
+                        <p>Product Pricelist Item</p>
+                    </div>
+                </div>
+                    <t t-set="product_pricelist_items" t-value="doc.env['product.pricelist.item'].search([('product_tmpl_id','=',product.product_tmpl_id.id)])"/>
+                    <t t-set="product_pricelist_items" t-value="sorted(product_pricelist_items, key=lambda l: l.min_quantity)"/>
+                    <t t-if="product_pricelist_items">
+                        <t t-foreach="product_pricelist_items" t-as="product_pricelist_item">
+                            <div class="row">
+                                <div class="col-9">
+                                    <div class='row'>
+                                        <div class='col-6'>
+                                            <p class='mb-2'>Prelaunch Price Au$/SKU + No GST:</p>
+                                        </div>
+                                        <div class='col-6'>
+                                            <p class='mb-2'>
+                                                <t t-esc="product_pricelist_item.fixed_price"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class='row'>
+                                        <div class='col-6'>
+                                            <p class='mb-2'>MOQ:</p>
+                                        </div>
+                                        <div class='col-6'>
+                                            <p class='mb-2'>
+                                            <t t-esc="product_pricelist_item.min_quantity"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class='col-5'>
+                                    <p class='mb-2'>Payment conditions for pre launch orders:</p>
+                                </div>
+                                <div class='col-7'>
+                                    <p class='mb-2'>
+                                    
+                                    </p>
+                                </div>
+                            </div>
+                        </t>
+                        <div class="row">
+                            <div class='col-5'>
+                                <p class='mb-2'>Extra free services:</p>
+                            </div>
+                            <div class='col-7'>
+                                <p class='mb-2'>
+                                
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class='col-5'>
+                                <p class='mb-2'>Costs not included:</p>
+                            </div>
+                            <div class='col-7'>
+                                <p class='mb-2'>
+                                </p>
+                            </div>
+                        </div>
+                    </t>
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #7dcbf1;">
+                    <div class="col-12">
+                        <p>Packaging Concept from BOM</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th style="text-align: center;">Quantity</th>
+                                    <th style="text-align: center;">Product Uom of Measure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.move_raw_ids" t-as="move">
+                                    <tr>
+                                        <td><t t-esc="move.product_id.name"/></td>
+                                        <td style="text-align: center;"><t t-esc="move.product_uom_qty"/></td>
+                                        <td style="text-align: center;"><t t-esc="move.product_uom.name"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p style="page-break-after: always;"/>
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #7dcbf1;">
+                    <div class="col-12">
+                        PIF Report for the finished product - technical specification
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Brand Name:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.brand_name_id.name"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">SKU Code:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.default_code"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="mb-2">Product Name:</p>
+                            </div>
+                            <div class="col-9">
+                                <p class="mb-2"><t t-esc="product.name"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #7dcbf1;">
+                    <div class="col-12">
+                        <p>List of provided services from manufacturer per unit:</p>
+                    </div>
+                </div>
+                <div class="row text-center mb-2">
+                    <div class="col-12">
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Operation</th>
+                                    <th>Work Center</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.workorder_ids" t-as="work">
+                                    <tr>
+                                        <td><t t-esc="work.name"/></td>
+                                        <td><t t-esc="work.workcenter_id.name"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="row mb-2" style="height: 250px">
+                    <div class="col-3" style="text-align: left;">
+                        <p>Technical images for products and Cartons.</p>
+                        <p>Special detailed images for Batch Nr. Print and position of the label.</p>
+                    </div>
+                    <div class="col-3" style="text-align: center;">
+                        <p class="mb-2">Label position image</p>
+                        <img t-if="len_product_images > 2" t-att-src="image_data_uri(product.product_template_image_ids[2].image_1920)"
+                            style="max-width: 100%;max-height:100%;object-fit: contain;height: 210px;"
+                            alt="Label position image"/>
+                    </div>
+                    <div class="col-3" style="text-align: center;">
+                        <p class="mb-2">Batch Number image</p>
+                        <img t-if="len_product_images > 3" t-att-src="image_data_uri(product.product_template_image_ids[3].image_1920)"
+                            style="max-width: 100%;max-height:100%;object-fit: contain;height: 210px;"
+                            alt="Batch Number image"/>
+                    </div>
+                    <div class="col-3" style="text-align: center;">
+                        <p class="mb-2">Some other detailed images</p>
+                        <img t-if="len_product_images > 4" t-att-src="image_data_uri(product.product_template_image_ids[4].image_1920)"
+                            style="max-width: 100%;max-height:100%;object-fit: contain;height: 190px;"
+                            alt="Some other detailed images"/>
+                    </div>
+                </div>
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                    <div class="col-12">
+                        <p>Ingredient list and Benefits</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <p>Ingredient list in a right descending order:</p>
+                        <span t-if="doc.bom_id"><t t-esc="doc.bom_id.generate_ingredient_list()"/></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="mb-2">Active ingredients:</p>
+                    </div>
+                    <div class="col-8">
+                        <p class="mb-2"><t t-esc="dict(product.product_tmpl_id._fields['priority'].selection).get(product.product_tmpl_id.priority)"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="mb-2">Product benefits:</p>
+                    </div>
+                    <div class="col-8">
+                        <p class="mb-2"><t t-esc="product.product_benefits"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <t t-set="total_ingredient" t-value="doc.bom_id.calculate_nb_ingredients()"/>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-8">
+                                <p class="mb-2">Total ingredients in the formulation:</p>
+                            </div>
+                            <div class="col-4" style="padding-top: 10px;">
+                                <p class="mb-2"><t t-esc="total_ingredient[0]"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-8">
+                                <p class="mb-2">Total CO ingredients in the formulation:</p>
+                            </div>
+                            <div class="col-4" style="padding-top: 10px;">
+                                <p class="mb-2"><t t-esc="total_ingredient[1]"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-8">
+                                <p class="mb-2">Total content of certified organics ingredients in %:</p>
+                            </div>
+                            <div class="col-4" style="padding-top: 10px;">
+                                <p class="mb-2"><t t-esc="total_ingredient[2]"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                    <div class="col-12">
+                        <p>Set specification after PET &amp; Stability Test</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Shelf life:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.removal_time"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Use after opening:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.expiration_time"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12" style="font-size: 12px; color: #7dcbf1;">
+                        <p>
+                            The expiry specifications listed above are theoretical only, based on observation and experience.
+                            Kirra strongly recommend clients conduct stability and Preservative Efficacy testing to formally establish safe Shelf Life and Use After Opening limits.
+                            This testing is the responsibility of the client and is not performed as a standard service by Kirra.
+                        </p>
+                        <p>
+                            If the Customer approves a commercial sample prepared by Kirra without stability and preservative efficacy testing completed, the Customer assumes all risk in relation to the Preservative Efficiency and Stability for purpose.
+                        </p>
+                    </div>
+                </div>
+                <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                    <div class="col-12">
+                        <p>Technical batch specification</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">Viscosity range:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.viscosity_range"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2">pH Range:</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><t t-esc="product.ph_range"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-8">
+                                <p class="mb-2">Specific Weight in gr:</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="mb-2"><t t-esc="product.specific_weight"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">Colour Description:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="product.colour_description"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="mb-2">Aroma Description:</p>
+                            </div>
+                            <div class="col-8">
+                                <p class="mb-2"><t t-esc="product.aromatic_description"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" style="font-size: 12px; color: #7dcbf1;">
+                        <p>
+                            Kirra holds a retention sample from each batch of product manufactured on site. These samples are stored at a monitored temperature and humidity.
+                            It is Kirra’s expectation that Clients will also hold two retention sample of each batch at monitored conditions to be used in the event of a non-conformance report.
+                            Failure to provide the required samples will prevent any investigation from occurring.
+                        </p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12" style="font-weight: bold;">
+                        <p style="font-weight: bold;">Due to the nature of the ingredients, they may be a slightly variation in colour.</p>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="mo_pif_report">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="mysm_inventory.product_mo_pif_finished_product_report_document"/>
+                    <p style="page-break-after: always;"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_mo_pif" model="ir.actions.report">
+            <field name="name">MO PIF Report</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mysm_inventory.mo_pif_report</field>
+            <field name="report_file">mysm_inventory.mo_pif_report</field>
+            <field name="print_report_name">'PIF Report'</field>
+            <field name="paperformat_id" ref="mysm_inventory.paperformat_product_pif_report"/>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+        </record>
+    </data>
+</odoo>

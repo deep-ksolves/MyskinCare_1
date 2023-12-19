@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mysm_attribute_view_tree" model="ir.ui.view">
+        <field name="name">mysm.attribute.view.tree</field>
+        <field name="model">mysm.attribute</field>
+        <field name="arch" type="xml">
+            <tree string="Attribute" editable="top">
+                <field name="name"/>
+                <field name="field_name" optional="hide" groups="base.group_no_one"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mysm_attribute_view_form" model="ir.ui.view">
+        <field name="name">mysm.attribute.view.form</field>
+        <field name="model">mysm.attribute</field>
+        <field name="arch" type="xml">
+            <form string="Attribute">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="field_name" groups="base.group_no_one"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mysm_form_product_action" model="ir.actions.act_window">
+        <field name="name">Form of Products</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'form.product')]</field>
+        <field name="context">{'default_field_name': 'form.product'}</field>
+    </record>
+
+    <record id="mysm_raw_material_source_action" model="ir.actions.act_window">
+        <field name="name">Raw Material Source</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'raw.material.source')]</field>
+        <field name="context">{'default_field_name': 'raw.material.source'}</field>
+    </record>
+
+    <record id="mysm_extract_method_action" model="ir.actions.act_window">
+        <field name="name">Extract Methods</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'extract.method')]</field>
+        <field name="context">{'default_field_name': 'extract.method'}</field>
+    </record>
+
+    <record id="mysm_plant_part_action" model="ir.actions.act_window">
+        <field name="name">Plant Parts</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'plant.part')]</field>
+        <field name="context">{'default_field_name': 'plant.part'}</field>
+    </record>
+
+    <record id="mysm_aromatherapy_note_action" model="ir.actions.act_window">
+        <field name="name">Aromatherapy Note</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'aromatherapy.note')]</field>
+        <field name="context">{'default_field_name': 'aromatherapy.note'}</field>
+    </record>
+
+    <record id="mysm_aromatic_category_action" model="ir.actions.act_window">
+        <field name="name">Aromatic Category</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'aromatic.category')]</field>
+        <field name="context">{'default_field_name': 'aromatic.category'}</field>
+    </record>
+
+    <record id="mysm_strength_aroma_action" model="ir.actions.act_window">
+        <field name="name">Strength Of Aroma</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'strength.aroma')]</field>
+        <field name="context">{'default_field_name': 'strength.aroma'}</field>
+    </record>
+
+    <record id="mysm_brand_name_action" model="ir.actions.act_window">
+        <field name="name">Brand Name</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'brand.name')]</field>
+        <field name="context">{'default_field_name': 'brand.name'}</field>
+    </record>
+
+    <record id="mysm_type_packaging_action" model="ir.actions.act_window">
+        <field name="name">Type of Packaging</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'type.packaging')]</field>
+        <field name="context">{'default_field_name': 'type.packaging'}</field>
+    </record>
+
+    <record id="mysm_type_material_action" model="ir.actions.act_window">
+        <field name="name">Type of Material</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'type.material')]</field>
+        <field name="context">{'default_field_name': 'type.material'}</field>
+    </record>
+
+    <record id="mysm_type_dispenser_action" model="ir.actions.act_window">
+        <field name="name">Type of Dispenser</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'type.dispenser')]</field>
+        <field name="context">{'default_field_name': 'type.dispenser'}</field>
+    </record>
+
+    <record id="mysm_type_caps_action" model="ir.actions.act_window">
+        <field name="name">Type of Caps</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'type.caps')]</field>
+        <field name="context">{'default_field_name': 'type.caps'}</field>
+    </record>
+
+    <record id="mysm_shape_packaging_action" model="ir.actions.act_window">
+        <field name="name">Shape of Packaging</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'shape.packaging')]</field>
+        <field name="context">{'default_field_name': 'shape.packaging'}</field>
+    </record>
+
+    <record id="mysm_basic_color_action" model="ir.actions.act_window">
+        <field name="name">Basic Colour</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'basic.color')]</field>
+        <field name="context">{'default_field_name': 'basic.color'}</field>
+    </record>
+
+    <record id="mysm_neck_size_action" model="ir.actions.act_window">
+        <field name="name">Neck Size</field>
+        <field name="res_model">mysm.attribute</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('field_name', '=', 'neck.size')]</field>
+        <field name="context">{'default_field_name': 'neck.size'}</field>
+    </record>
+
+    <menuitem
+        id="mysm_form_product_menu"
+        name="Form of Products"
+        action="mysm_form_product_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="10"/>
+
+    <menuitem
+        id="mysm_raw_material_source_menu"
+        name="Raw Material Source"
+        action="mysm_raw_material_source_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="20"/>
+
+    <menuitem
+        id="mysm_extract_method_menu"
+        name="Extract Method"
+        action="mysm_extract_method_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="30"/>
+
+    <menuitem
+        id="mysm_plant_part_menu"
+        name="Plant Parts"
+        action="mysm_plant_part_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="40"/>
+
+    <menuitem
+        id="mysm_aromatherapy_note_menu"
+        name="Aromatherapy Note"
+        action="mysm_aromatherapy_note_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="50"/>
+
+    <menuitem
+        id="mysm_aromatic_category_menu"
+        name="Aromatic Category"
+        action="mysm_aromatic_category_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="60"/>
+
+    <menuitem
+        id="mysm_strength_aroma_menu"
+        name="Strength Of Aroma"
+        action="mysm_strength_aroma_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="70"/>
+
+    <menuitem
+        id="mysm_brand_name_menu"
+        name="Brand Name"
+        action="mysm_brand_name_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="80"/>
+
+    <menuitem
+        id="mysm_type_packaging_menu"
+        name="Type of Packaging"
+        action="mysm_type_packaging_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="90"/>
+
+    <menuitem
+        id="mysm_type_material_menu"
+        name="Type of Material"
+        action="mysm_type_material_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="100"/>
+
+    <menuitem
+        id="mysm_type_dispenser_menu"
+        name="Type of Dispenser"
+        action="mysm_type_dispenser_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="110"/>
+
+    <menuitem
+        id="mysm_type_caps_menu"
+        name="Type of Caps"
+        action="mysm_type_caps_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="120"/>
+
+    <menuitem
+        id="mysm_shape_packaging_menu"
+        name="Shape of Packaging"
+        action="mysm_shape_packaging_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="130"/>
+
+    <menuitem
+        id="mysm_basic_color_menu"
+        name="Basic Colour"
+        action="mysm_basic_color_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="140"/>
+
+    <menuitem
+        id="mysm_neck_size_menu"
+        name="Neck Size"
+        action="mysm_neck_size_action"
+        parent="mysm_product_spec_configuration_menu"
+        sequence="150"/>
+</odoo>

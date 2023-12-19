@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <!--tree-->
+	<record id="tree_project_category" model="ir.ui.view">
+		<field name="name">tree.project.category</field>
+		<field name="model">project.category</field>
+		<field name="arch" type="xml">
+		    <tree string="Project Category Tree" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+ 		    </tree>
+		</field>
+	</record>
+	<!--Action-->
+	<record id="action_project_category" model="ir.actions.act_window">
+        <field name="name">Project Category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tree_project_category"/>
+    </record>
+    <!--Menus-->
+ 	<menuitem name ="Project Category"
+              id="menu_project_category"
+              parent="project.menu_project_config"
+              action="action_project_category"
+              sequence="1"/>
+</odoo>

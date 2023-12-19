@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="mysm_report_purchase_order_document" name="report_purchase_order">
+        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+        <t t-set="address">
+            <div t-field="o.partner_id"
+            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+            <p t-if="o.partner_id.vat"><t t-esc="o.company_id.account_fiscal_country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></p>
+        </t>
+        <t t-if="o.dest_address_id">
+            <t t-set="information_block">
+                <strong>Shipping address:</strong>
+                <div t-if="o.dest_address_id">
+                    <div t-field="o.dest_address_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' name="purchase_shipping_address"/>
+                </div>
+            </t>
+        </t>
+        <div class='container'>
+            <div class="row">
+                <t t-set="vendor" t-value="o.partner_id"/>
+                <div class='col-5 pl-0'>
+                    <p class="pl-2 mb-0" style='background-color: #4230B2;color: white'>
+                        <b scope="col">VENDOR</b>
+                    </p>
+                    <div class='pl-2'>
+                        <p class="mb-0">
+                            <t t-esc="vendor.name"/>
+                        </p>
+                        <p class="mb-0">
+                            <t t-if="vendor.child_ids">
+                                <t t-esc="vendor.child_ids[0].name"/>
+                            </t>
+                        </p>
+                        <p class="mb-0">
+                            <t t-esc="vendor.street"/>
+                            <t t-if="vendor.street2">
+                                    - <t t-esc="vendor.street2"/>
+                            </t>
+                        </p>
+                        <p class="mb-0">
+                            <t t-esc="vendor.city"/>
+                            <t t-if="vendor.state_id">
+                                - <t t-esc="vendor.state_id.name"/>
+                            </t>
+                            <t t-if="vendor.zip">
+                                - <t t-esc="vendor.zip"/>
+                            </t>
+                        </p>
+                        <p class="mb-0"><t t-esc="vendor.phone"/></p>
+                        <p class="mb-0"><t t-esc="vendor.vat"/></p>
+                    </div>
+                </div>
+                <div class='col-2'>
+                </div>
+                <div class='col-5 pr-0'>
+                    <p class="pl-2 mb-0" style='background-color: #4230B2;color: white'>
+                        <b>SHIP TO</b>
+                    </p>
+                    <t t-if="user.company_id">
+                        <div class='pl-2'>
+                            <p class="mb-0"><t t-esc="user.company_id.name"/></p>
+                            <p class="mb-0">
+                                <t t-if="user.company_id.child_ids">
+                                    <td><t t-esc="user.company_id.child_ids[0].name"/></td>
+                                </t>
+                            </p>
+                            <p class="mb-0">
+                                <t t-esc="user.company_id.street"/>
+                                <t t-if="user.company_id.street2">
+                                    - <t t-esc="user.company_id.street2"/>
+                                </t>
+                            </p>
+                            <p class="mb-0">
+                                <t t-esc="user.company_id.city"/>
+                                <t t-if="user.company_id.state_id">
+                                    - <t t-esc="user.company_id.state_id.name"/>
+                                </t>
+                                <t t-if="user.company_id.zip">
+                                    - <t t-esc="user.company_id.zip"/>
+                                </t>
+                            </p>
+                            <p class="mb-0"><t t-esc="user.company_id.phone"/></p>
+                            <p class="mb-0"><t t-esc="user.company_id.vat"/></p>
+                        </div>
+                    </t>
+                </div>
+            </div>
+            <div class="row pt-5">
+                <table class="table table-sm o_main_table table-bordered">
+                    <thead>
+                        <tr style='background-color: #4230B2;color: white;text-align: center;'>
+                            <th scope="col">REQUISITIONER</th>
+                            <th scope="col">ESTIMATED DELIVERY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td ><t t-esc="o.user_id.name"/></td>
+                            <td><t t-esc='o.date_planned'/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <table class="table table-sm o_main_table table-bordered">
+                    <thead>
+                        <tr style='background-color: #4230B2;color: white;text-align: center;'>
+                            <th scope="col">MYSM Number</th>
+                            <th scope="col">Vendor Part No</th>
+                            <th scope="col">DESCRIPTION</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col">Units</th>
+                            <th scope="col">UNIT PRICE</th>
+                            <th scope="col">GST</th>
+                            <th scope="col">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <t t-set="subtotal" t-value="0"/>
+                    <tbody>
+                        <t t-foreach="o.order_line" t-as="line">
+                            <tr>
+                                <td ><t t-esc="line.mysm_number"/></td>
+                                <td><t t-esc="line.vendor_part_no"/></td>
+                                <td><t t-esc="line.name"/></td>
+                                <td><t t-esc='line.product_qty'/></td>
+                                <td><t t-esc='line.product_uom.name'/></td>
+                                <td><t t-esc='line.price_unit'/></td>
+                                <td><t t-esc='line.taxes_id.name'/></td>
+                                <td><t t-esc='line.price_subtotal' t-options="{'widget': 'monetary', 'display_currency': user.company_id.currency_id}"/></td>
+                            </tr>
+                        </t>
+                        <t t-set='amount' t-value="json.loads(o.tax_totals_json)"/>
+                        <tr class='table-borderless'>
+                            <td colspan='4'></td>
+                            <td colspan='3'><b>SUBTOTAL</b></td>
+                            <td><t t-esc="amount['amount_untaxed']" t-options="{'widget': 'monetary', 'display_currency': user.company_id.currency_id}"/></td>
+                        </tr>
+                        <tr class='table-borderless'>
+                            <td colspan='4'></td>
+                            <td colspan='3'><b>GST</b></td>
+                            <td><t t-esc="amount['groups_by_subtotal']['Untaxed Amount'][0]['tax_group_amount']" 
+                                   t-options="{'widget': 'monetary', 'display_currency': user.company_id.currency_id}"/></td>
+                        </tr>
+                        <tr class='table-borderless'>
+                            <td colspan='4'></td>
+                            <td colspan='3'><b>TOTAL</b></td>
+                            <td>
+                                <t t-esc='o.amount_total' t-options="{'widget': 'monetary', 'display_currency': user.company_id.currency_id}"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="page-break-before: auto;page-break-inside: avoid;">
+                <div class='col-8'>
+                    <table class="table table-sm o_main_table table-bordered">
+                        <thead>
+                            <tr style='background-color: #969696'>
+                                <th>
+                                    Comments or Special Intructions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><t t-esc="o.notes"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <t t-set="user" t-value="o.user_id.partner_id"/>
+                    <div>If you have any questions about this purchase order, please contact:</div>
+                    <div>
+                    <b><t t-esc="user.name"/></b>
+                    <t t-if="user.phone">
+                            - Phone: <t t-esc="user.phone"/>
+                    </t>
+                    <t t-if="user.email">
+                            - Email: <t t-esc="user.email"/>
+                    </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="purchase_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="mysm_inventory.purchase_order_report_external_layout" t-lang="o.partner_id.lang">
+                    <t t-call="mysm_inventory.mysm_report_purchase_order_document"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <template id="purchase_order_report_header_layout_standard">
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class='container'>
+                <div class='row'>
+                    <div class='col-5'>
+                        <div class="row">
+                            <div class="col-3 mb4">
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                            </div>
+                            <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+                        </div>
+                        <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                            <div class="col-12">
+                                <div style="border-bottom: 1px solid black;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" name="company_address">
+                                <div t-field="company.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-3'/>
+                    <div class='col-4'>
+                        <div >
+                            <p class='pb-1'><h2 style='color: #4230B2'><b>PURCHASE ORDER</b></h2></p>
+                            <p class='mb-0'><b>DATE: </b><t t-esc="o.date_approve"/></p>
+                            <p class='mb-0'><b>PO #: </b><t t-esc="o.name"/></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-raw="0" />
+        </div>
+    </template>
+    
+    <template id="purchase_order_report_external_layout">
+        <t t-if="not o" t-set="o" t-value="doc" />
+        <t t-if="not company">
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id" />
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()" />
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company" />
+            </t>
+        </t>
+        <t t-call="mysm_inventory.purchase_order_report_header_layout_standard">
+            <t t-raw="0" />
+        </t>
+    </template>
+
+</odoo>

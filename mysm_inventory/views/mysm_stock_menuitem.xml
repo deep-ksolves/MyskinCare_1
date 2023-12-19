@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="mysm_product_spec_configuration_menu"
+        name="Product Specs"
+        parent="stock.menu_stock_config_settings"
+        sequence="100"/>
+    
+    <menuitem
+        id="mysm_product_ribbon_menu"
+        name="Product Ribbon"
+        parent="stock.menu_stock_config_settings"
+        action="mysm_inventory.product_ribbon_action"
+        sequence="200"/>
+
+</odoo>

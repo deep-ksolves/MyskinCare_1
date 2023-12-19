@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_maintenance_criticality_user,access_maintenance_criticality,model_maintenance_criticality,base.group_user,1,0,0,0
+access_maintenance_criticality_manager,access_maintenance_criticality_manager,model_maintenance_criticality,maintenance.group_equipment_manager,1,1,1,1

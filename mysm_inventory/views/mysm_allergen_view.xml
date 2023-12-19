@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mysm_allergen_tree_view" model="ir.ui.view">
+        <field name="name">mysm.allergen.view.tree</field>
+        <field name="model">mysm.allergen</field>
+        <field name="arch" type="xml">
+            <tree string="" editable='bottom'>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="mysm_allergen_form_view" model="ir.ui.view">
+        <field name="name">mysm.allergen.view.form</field>
+        <field name="model">mysm.allergen</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mysm_allergen_action" model="ir.actions.act_window">
+        <field name="name">Allergen</field>
+        <field name="res_model">mysm.allergen</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem
+    id="mysm_allergen_menu"
+    name="Allergen"
+    action="mysm_allergen_action"
+    parent="stock.menu_stock_config_settings"
+    sequence="170"/>
+
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <record id="search_dev_project_category_inherited" model="ir.ui.view">
+        <field name="name">search.dev.project.category.inherited</field>
+        <field name="model">report.project.task.user</field>
+        <field name="inherit_id" ref="project.view_task_project_user_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='project']" position="after">
+                <filter string="Project Category"
+                        name="project_category_id"
+                        context="{'group_by':'project_category_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

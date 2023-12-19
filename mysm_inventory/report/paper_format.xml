@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_purchase_order" model="report.paperformat">
+            <field name="name">Purchase Order Paper Format</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">50</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_location_report_small" model="report.paperformat">
+            <field name="name">Location report (Small)</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">100</field>
+            <field name="page_width">25</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">5</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_location_report_big" model="report.paperformat">
+            <field name="name">Location report (Big)</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">100</field>
+            <field name="page_width">48</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="purchase.action_report_purchase_order" model="ir.actions.report">
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
+        <record id="mysm_action_report_purchase_order" model="ir.actions.report">
+            <field name="name">Purchase Order</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mysm_inventory.purchase_order_report</field>
+            <field name="report_file">mysm_inventory.purchase_order_report</field>
+            <field name="print_report_name">
+                (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                'Purchase Order - %s' % (object.name))</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="mysm_inventory.paperformat_purchase_order"></field>
+        </record>
+
+        <record id="report_stock_location_label_small" model="ir.actions.report">
+            <field name="name">Location QR Code (Small)</field>
+            <field name="model">stock.location</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mysm_inventory.stock_location_small_report_template</field>
+            <field name="report_file">mysm_inventory.stock_location_small_report_template</field>
+            <field name="paperformat_id" ref="mysm_inventory.paperformat_location_report_small"/>
+            <field name="print_report_name">'Location QR Code (Small) - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="stock.model_stock_location"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_stock_location_label_big" model="ir.actions.report">
+            <field name="name">Location QR Code (Big)</field>
+            <field name="model">stock.location</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mysm_inventory.stock_location_big_report_template</field>
+            <field name="report_file">mysm_inventory.stock_location_big_report_template</field>
+            <field name="paperformat_id" ref="mysm_inventory.paperformat_location_report_big"/>
+            <field name="print_report_name">'Location QR Code (Big) - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="stock.model_stock_location"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+
+</odoo>

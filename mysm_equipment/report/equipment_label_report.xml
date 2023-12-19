@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<template id="report_simple_label_sku">
+			<div class="row" style="padding:0pt; margin:0pt;">
+				<table style="width:253pt; height:50pt; padding:0pt; margin:0pt;">
+					<tr style="padding:0pt;">
+						<th colspan="2" style="padding:0pt;">
+							<span style="font-size:12pt; margin-bottom:0pt;margin-top:0pt;" align="left">
+								My Skincare Manufacturer equipment
+							</span>
+						</th>
+					</tr>
+					<tr style="padding:0pt;">
+						<td style="width:60mm; " align="left" valign="center">
+							<span style="font-size:9pt; margin-bottom:0pt;margin-top:0pt; white-space: nowrap;">
+								<b>Name : </b>
+								<t t-esc="doc.name[:30]"/>
+							</span>
+						</td>
+						<td rowspan="6" style="width:40mm; " align="right" valign="top">
+							<img t-if="doc.sku_name" t-att-src="image_data_uri(doc.generate_qr_code())" 
+								style="max-height:80pt;max-width:90%;position: absolute;z-index:-1;"
+								alt="Qr Code"/>
+						</td>
+					</tr>
+					<tr style="padding:0pt;"  >
+						<td style="width:60mm; " align="left" valign="center">
+							<span style="font-size:9pt; margin-bottom:0pt;margin-top:0pt; white-space: nowrap;">
+								<b>SKU Nr : </b>
+								<t t-if="doc.sku_name" t-esc="doc.sku_name[:30]"/>
+							</span>
+						</td>
+					</tr>
+					<tr style="padding:0pt;" >
+						<td style="width:60mm; " align="left" valign="center">
+							<span style="font-size:9pt; margin-bottom:0pt;margin-top:0pt; white-space: nowrap;">
+								<b>Category : </b>
+								<t t-if="doc.category_id" t-esc="doc.category_id.name[:30]"/>
+							</span>
+						</td>
+					</tr>
+					<tr style="padding:0pt;" >
+						<td style="width:60mm; " align="left" valign="center">
+							<span style="font-size:9pt; margin-bottom:0pt;margin-top:0pt; white-space: nowrap;">
+								<b>Vendor : </b>
+								<t t-if="doc.partner_id" t-esc="doc.partner_id.name[:30]"/>
+							</span>
+						</td>
+					</tr>
+					<tr style="padding:1px;">
+						<td colspan="2" style="width:60mm; " align="left" valign="center">
+							<span style="font-size:9pt; padding-top:10pt;margin-top:0pt;"><b>Description : </b></span>
+							<span style="font-size:7pt; padding-top:10pt;margin-top:0pt;">
+								<t t-if="doc.note" t-esc="doc.note[:100]"/>
+							</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </template>
+
+        <template id="mysm_equipment_label">
+            <t t-call="web.basic_layout">
+		        <div class="page" style="padding:0pt; margin:0pt;">
+					<t t-foreach="docs" t-as="doc">
+						<t t-call="mysm_equipment.report_simple_label_sku">
+							<t t-set="doc" t-value="doc"/>
+						</t>
+						<p style="page-break-after: always;"/>
+					</t>
+		        </div>
+		    </t>
+        </template>
+		
+        <record id="paperformat_report_label" model="report.paperformat">
+            <field name="name">Format Equipment Label SKU</field>
+		    <field name="default" eval="False"/>
+		    <field name="format">custom</field>
+		    <field name="page_height">48</field>
+		    <field name="page_width">100</field>
+		    <field name="orientation">Portrait</field>
+		    <field name="margin_top">0</field>
+		    <field name="margin_bottom">0</field>
+		    <field name="margin_left">0</field>
+		    <field name="margin_right">0</field>
+		    <field name="header_line" eval="False"/>
+		    <field name="header_spacing">0</field>
+		    <field name="dpi">75</field>
+        </record>
+
+		<report
+            id="report_equipment_label"
+            string="Equipment Label (PDF)"
+            model="maintenance.equipment"
+            report_type="qweb-pdf"
+            name="mysm_equipment.mysm_equipment_label"
+            file="mysm_equipment.mysm_equipment_label"
+            print_report_name="'Equipment Label (PDF)'"
+			paperformat="mysm_equipment.paperformat_report_label"
+        />
+		
+    </data>
+</odoo>

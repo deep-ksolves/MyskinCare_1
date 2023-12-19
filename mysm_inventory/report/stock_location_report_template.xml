@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="location_label_small_report_barcode" name="location_label_smal_report">
+        <div class="container">
+            <div class="row">
+                <table style="width: 100%; padding:0pt; margin:0pt;">
+                    <tr style="padding:0pt;">
+                        <td style="padding-top:25px;font-size:26pt" align="center" valign="center">
+                                <t t-esc="o.name"/>
+                        </td>
+                        <td rowspan="6" style="width:40mm;" align="center" valign="center">
+                            <img t-att-src="image_data_uri(o.generate_qr_code())" style="height:auto;max-width:90px;z-index:-1;" alt="QR Code"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p style="page-break-after: always;"/>
+    </template>
+
+    <template id="stock_location_small_report_template">
+        <t t-call="web.basic_layout">
+            <div class="page" style="padding:0pt; margin:0pt;">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="mysm_inventory.location_label_small_report_barcode"/>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="location_label_big_report_barcode" name="location_label_big_report_barcode">
+        <div class="row" style="padding:0pt; margin:0pt;">
+            <table style="width: 310pt; padding:0pt; margin:0pt;">
+                <tr align="center" valign="center" style="font-size:36pt">
+                    <td colspan="2" style="margin: 0px;padding:0px;font-size:36pt">
+                        <t t-esc="o.name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 70%" align="left">
+                        <span style="font-size:14pt; margin-bottom:0pt;margin-top:0pt; white-space: nowrap;">
+                          <t t-esc="o.display_name"/>
+                        </span>
+                        <br/>
+                        <span style="font-size:10pt;width: 60%;font-style:italic">
+                          <t t-esc="o.comment"/>
+                        </span>
+                    </td>
+                    <td rowspan="6" style="margin: 0px;padding:0px;width: 30%" align="right">
+                        <img t-att-src="image_data_uri(o.generate_qr_code())" style="height:auto;max-width:100px;z-index:-1;" alt="QR Code"/>
+                    </td>
+                </tr>
+        </table>
+        </div>
+        <p style="page-break-after: always;"/>
+    </template>
+
+    <template id="stock_location_big_report_template">
+        <t t-call="web.basic_layout">
+            <div class="page" style="padding:0pt; margin:0pt;">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="mysm_inventory.location_label_big_report_barcode"/>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

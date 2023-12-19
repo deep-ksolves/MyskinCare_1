@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="mo_pif_report_custom" inherit_id="mysm_inventory.product_mo_pif_finished_product_report_document">
+            <xpath expr="//tbody/t[@t-foreach='doc.move_raw_ids']" position="replace">
+                <tbody>
+                    <t t-foreach="doc.move_raw_ids" t-as="move">
+                        <t t-if="move.product_id.has_components">
+                            <t t-set="components" t-value="move.get_components()"/>
+                            <t t-foreach="components" t-as="component">
+                                <tr>
+                                    <td>
+                                        <t t-esc="component.get('name')"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="component.get('percentage')"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="move.product_uom.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <tr>
+                                <td>
+                                    <t t-esc="move.product_id.name"/>
+                                </td>
+                                <td style="text-align: center;">
+                                    <t t-esc="move.product_uom_qty"/>
+                                </td>
+                                <td style="text-align: center;">
+                                    <t t-esc="move.product_uom.name"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </xpath>
+        </template>
+    </data>
+</odoo>

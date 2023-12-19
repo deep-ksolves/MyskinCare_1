@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_bom_component_inherit_view_form" model="ir.ui.view">
+        <field name="name">mrp.bom.component.view.form.inherit</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='allergen']" position="after">
+                <page name="ingredients" string="Ingredients">
+                    <field name="components_ids" readonly="1">
+                        <tree>
+                            <field name="component_id"/>
+                            <field name="percentage"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

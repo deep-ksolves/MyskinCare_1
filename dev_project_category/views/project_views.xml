@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <!--project kanban-->
+	<record id="project_kanban_dev_project_category_inherited" model="ir.ui.view">
+		<field name="name">project.kanban.dev.project.category.inherited</field>
+		<field name="model">project.project</field>
+		<field name="inherit_id" ref="project.view_project_kanban"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='partner_id']" position="after">
+                <field name="project_category_id"/>
+            </xpath>
+			<xpath expr="//div[@class='o_kanban_card_content mw-100']//div[1]//div[1]" position="inside">
+                <span t-if="record.project_category_id.value">
+                    <div><span>Category : </span><t t-esc="record.project_category_id.value"/></div>
+                </span>
+            </xpath>
+        </field>
+	</record>
+    <!--project form-->
+	<record id="project_form_dev_project_category_inherited" model="ir.ui.view">
+		<field name="name">project.form.dev.project.category.inherited</field>
+		<field name="model">project.project</field>
+		<field name="inherit_id" ref="project.edit_project"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='user_id']" position="after">
+                <field name="project_category_id"/>
+            </xpath>
+        </field>
+	</record>
+    <!--project search-->
+	<record id="project_search_dev_project_category_inherited" model="ir.ui.view">
+		<field name="name">project.search.dev.project.category.inherited</field>
+		<field name="model">project.project</field>
+		<field name="inherit_id" ref="project.view_project_project_filter"/>
+		<field name="arch" type="xml">
+			<xpath expr="//group[1]" position="inside">
+                 <filter name="group_by_project_category" string="Category" context="{'group_by': 'project_category_id'}"/>
+            </xpath>
+        </field>
+	</record>
+</odoo>
