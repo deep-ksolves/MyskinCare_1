@@ -5,6 +5,7 @@
 Easily access any product components from your product profile.
 """,
     'author': 'Ksolves',
+    'version': '15.0.0.1',
     'website': 'https://www.ksolves.com/',
     'depends': ['product', 'mysm_inventory', 'mysm_manufacturing', 'sale'],
     'data': [
