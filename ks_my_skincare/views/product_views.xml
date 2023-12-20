@@ -6,20 +6,23 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//button[@name='allergen_button']" position="before">
-                    <button class="oe_stat_button" name="component_button" icon="fa-list-ul" type="object"
-                            attrs="{'invisible': [('has_components', '=', False)]}">
-                        <field name="has_components" invisible='1'/>
-                        <div class="o_field_widget o_stat_info">
-                            <span>
-                                Components
-                            </span>
-                        </div>
-                    </button>
+                <xpath expr="//field[@name='image_package']" position="after">
+                    <field name="image_package2" widget="image" class="oe_avatar"
+                           options="{'zoom': true, 'preview_image':'image_package2'}"/>
                 </xpath>
-                <xpath expr="//label[@for='purchase_ok']" position="after">
-                    <field name="has_components"/>
-                    <label for="has_components">Components</label>
+            </field>
+        </record>
+
+        <record id="product_template_uom_inherit_view" model="ir.ui.view">
+            <field name="name">product.template.uom.inherit.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='uom_id']" position="replace">
+                    <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+                </xpath>
+                <xpath expr="//field[@name='uom_po_id']" position="replace">
+                    <field name="uom_po_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
                 </xpath>
             </field>
         </record>

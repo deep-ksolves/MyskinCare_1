@@ -5,15 +5,9 @@
         <field name="model">mrp.bom</field>
         <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='allergen']" position="after">
-                <page name="ingredients" string="Ingredients">
-                    <field name="components_ids" readonly="1">
-                        <tree>
-                            <field name="component_id"/>
-                            <field name="percentage"/>
-                        </tree>
-                    </field>
-                </page>
+            <xpath expr="//field[@name='product_qty']" position="after">
+                <field name="has_allergen" invisible="1"/>
+                <field name="mo_ids" invisible="1"/>
             </xpath>
         </field>
     </record>

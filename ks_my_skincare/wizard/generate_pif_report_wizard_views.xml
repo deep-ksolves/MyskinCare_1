@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.actions.server" id="mysm_inventory.action_view_generate_pif_report_wizard_frd">
+            <field name="name">Generate PIF for Formulation (External)</field>
+            <field name="model_id" ref="mrp.model_mrp_bom"/>
+            <field name="binding_model_id" ref="mrp.model_mrp_bom" />
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(4,ref('stock.group_stock_user'))]"/>
+            <field name="code">
+                if records:
+                    action = records.generate_report_pif_for_formulation('External')
+                </field>
+        </record>
+
+        <record model="ir.actions.server" id="action_view_generate_pif_report_wizard_frd_internal">
+            <field name="name">Generate PIF for Formulation (Internal)</field>
+            <field name="model_id" ref="mrp.model_mrp_bom"/>
+            <field name="binding_model_id" ref="mrp.model_mrp_bom" />
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(4,ref('stock.group_stock_user'))]"/>
+            <field name="code">
+                if records:
+                    action = records.generate_report_pif_for_formulation('Internal')
+                </field>
+        </record>
+    </data>
+</odoo>
