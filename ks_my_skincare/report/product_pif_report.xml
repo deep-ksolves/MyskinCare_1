@@ -1377,7 +1377,7 @@
                 <br/>
                 <div style="page-break-inside: avoid;">
                     <div class="row text-center mb-2"
-                         style="font-size: 25px; background-color: #88cd5f;">
+                         style="font-size: 25px; background-color: #88cd5f; page-break-inside: avoid;">
                         <div class="col-12">
                             <strong style="font-style: italic;">Ingredient specification and Benefits</strong>
                         </div>
@@ -1854,7 +1854,7 @@
                 <br/>
                 <div style="page-break-inside: avoid;">
                     <div class="row text-center mb-2"
-                         style="font-size: 25px; background-color: #88cd5f;">
+                         style="font-size: 25px; background-color: #88cd5f; page-break-inside: avoid">
                         <div class="col-12">
                             <strong style="font-style: italic;">Ingredient specification and Benefits</strong>
                         </div>
