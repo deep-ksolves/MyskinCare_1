@@ -15,6 +15,10 @@
                     </field>
                 </page>
             </xpath>
+            <xpath expr="//field[@name='product_qty']" position="after">
+                <field name="has_allergen" invisible="1"/>
+                <field name="mo_ids" invisible="1"/>
+            </xpath>
         </field>
     </record>
 </odoo>

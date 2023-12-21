@@ -36,135 +36,138 @@
                 <field name="uom_po_id" position="after">
                     <field name="product_description"/>
                 </field>
-                <page name="invoicing" position="after">
-                    <page string="RM Specs" name="rm_specs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">
-                        <group name="rm_specs">
-                            <group>
-                                <field name="inci_name"/>
-                                <field name="cas_number"/>
-                                <field name="raw_material_source_id" context="{'default_field_name': 'raw.material.source'}"/>
-                                <field name="aromatherapy_note_id" context="{'default_field_name': 'aromatherapy.note'}"/>
-                                <field name="plant_part_id" context="{'default_field_name': 'plant.part'}"/>
-                                <field name="extraction_method_id" context="{'default_field_name': 'extract.method'}"/>
-                                <field name="basic_color_id" context="{'default_field_name': 'basic.colour'}" string="Basic Colour RM &amp; Batch"/>
-                                <field name="colour_description"/>
-                                <field name="aromatic_description"/>
-                                <field name="traditional_uses"/>
-                            </group>
-                            <group>
-                                <field name="form_id" context="{'default_field_name': 'form.product'}"/>
-                                <field name="ph_value" />
-                                <field name="specific_weight" />
-                                <field name="strength_of_aroma_id" context="{'default_field_name': 'strength.aroma'}"/>
-                                <field name="aromatic_category_id" context="{'default_field_name': 'aromatherapy.category'}"/>
-                                <field name="country_of_origin_id"/>
-                                <field name="blends_well_with"/>
-                                <field name="key_benefits"/>
-                                <field name="emotional_profile"/>
-                                <field name="link_to_wiki"/>
-                            </group>
-                        </group>
-                    </page>
-                    <page string="FP Specs" name="fp_specs" attrs="{'invisible': [('product_group', '!=', 'finished_product')]}">
-                        <group name="fp_specs">
-                            <group>
-                                <field name="customer_id" options="{'no_create': True, 'no_create_edit': True}"/>
-                                <field name="viscosity_range" />
-                                <field name="ph_range" />
-                                <field name="basic_color_id" context="{'default_field_name': 'basic.color'}"/>
-                                <field name="colour_description" />
-                                <field name="aromatic_description" />
-                            </group>
-                            <group>
-                                <field name="formulation_type" />
-                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>
-                                <field name="product_benefits" />
-                                <label for="product_dimensions"/>
-                                <div class="o_row" name="product_dimensions">
-                                    <field name="product_dimensions"/>
-                                    <span>mm</span>
-                                </div>
-                                <label for="product_net_weight"/>
-                                <div class="o_row" name="product_net_weight">
-                                    <field name="product_net_weight"/>
-                                    <span>g</span>
-                                </div>
-                                <label for="product_gross_weight"/>
-                                <div class="o_row" name="product_gross_weight">
-                                    <field name="product_gross_weight"/>
-                                    <span>g</span>
-                                </div>
-                                <label for="product_volume"/>
-                                <div class="o_row" name="product_volume">
-                                    <field name="product_volume"/>
-                                    <span>ml</span>
-                                </div>
-                                <label for="use_after_opening"/>
-                                <div class="o_row" name="use_after_opening">
-                                    <field name="use_after_opening"/>
-                                    <span>days</span>
-                                </div>
-                            </group>
-                        </group>
-                    </page>
-                    <page string="PP Specs" name="pp_specs" attrs="{'invisible': [('product_group', 'not in', ['packaging', 'packaging_client'])]}">
-                        <group name="pp_specs">
-                            <group>
-                                <field name="type_of_packaging_id" context="{'default_field_name': 'type.packaging'}"/>
-                                <field name="type_of_material_id" context="{'default_field_name': 'type.material'}"/>
-                                <field name="type_of_dispenser_id" context="{'default_field_name': 'type.dispenser'}"/>
-                                <field name="type_of_caps_id" context="{'default_field_name': 'type.caps'}"/>
-                                <field name="packaging_status" />
-                                <field name="stock_ownership" />
-                                <field name="for_client_product_id" options="{'no_create': True, 'no_create_edit': True}"/>
-                            </group>
-                            <group>
-                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>
-                                <field name="shape_of_the_packaging_id" context="{'default_field_name': 'shape.packaging'}"/>
-                                <field name="neck_size_id" context="{'default_field_name': 'neck.size'}"/>
-                                <field name="dispensing_volume" />
-                                <field name="basic_color_id" context="{'default_field_name': 'basic.color'}"/>
-                                <field name="colour_description" string="Panton Nr &amp; Colour Description"/>
-                            </group>
-                        </group>
-                    </page>
-                    <page string="Formulation Specs" name="formulation_specs" attrs="{'invisible': [('product_group', '!=', 'formulation')]}">
-                        <group name="formulation_specs">
-                            <group>
-                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>
-                                <field name="product_benefits" />
-                                <field name="viscosity" />
-                                <field name="specific_weight" />
-                                <field name="ph_value" />
-                                <field name="total_ingredients" readonly="1" />
-                                <field name="total_co_ingredients" readonly="1" />
-                                <field name="total_natural_ingredients" readonly="1" />
-                                <field name="total_synthetic_ingredients" readonly="1" />
-                            </group>
-                            <group>
-                                <field name="strength_of_aroma_id" context="{'default_field_name': 'strength.aroma'}"/>
-                                <field name="aromatic_description"/>
-                                <field name="basic_color_id" string="Strength of Colour" context="{'default_field_name': 'basic.color'}"/>
-                                <field name="colour_description" string="Panton Nr &amp; Colour Description"/>
-                                <field name="total_co_percentage" readonly="1" />
-                                <field name="total_natural_percentage" readonly="1" />
-                                <field name="total_synthetic_percentage" readonly="1" />
-                            </group>
-                        </group>
-                    </page>
-                    <page string="WHS" name="whs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">
-                        <group name="whs">
-                            <group>
-                                <field name="whs_handling"/>
-                                <field name="whs_storage"/>
-                            </group>
-                            <group>
-                                <field name="whs_fire"/>
-                                <field name="whs_accident"/>
-                            </group>
-                        </group>
-                    </page>
-                </page>
+
+<!--                these lines of code are commented to make the view of product.template and product.product same-->
+
+<!--                <page name="invoicing" position="after">-->
+<!--                    <page string="RM Specs" name="rm_specs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">-->
+<!--                        <group name="rm_specs">-->
+<!--                            <group>-->
+<!--                                <field name="inci_name"/>-->
+<!--                                <field name="cas_number"/>-->
+<!--                                <field name="raw_material_source_id" context="{'default_field_name': 'raw.material.source'}"/>-->
+<!--                                <field name="aromatherapy_note_id" context="{'default_field_name': 'aromatherapy.note'}"/>-->
+<!--                                <field name="plant_part_id" context="{'default_field_name': 'plant.part'}"/>-->
+<!--                                <field name="extraction_method_id" context="{'default_field_name': 'extract.method'}"/>-->
+<!--                                <field name="basic_color_id" context="{'default_field_name': 'basic.colour'}" string="Basic Colour RM &amp; Batch"/>-->
+<!--                                <field name="colour_description"/>-->
+<!--                                <field name="aromatic_description"/>-->
+<!--                                <field name="traditional_uses"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="form_id" context="{'default_field_name': 'form.product'}"/>-->
+<!--                                <field name="ph_value" />-->
+<!--                                <field name="specific_weight" />-->
+<!--                                <field name="strength_of_aroma_id" context="{'default_field_name': 'strength.aroma'}"/>-->
+<!--                                <field name="aromatic_category_id" context="{'default_field_name': 'aromatherapy.category'}"/>-->
+<!--                                <field name="country_of_origin_id"/>-->
+<!--                                <field name="blends_well_with"/>-->
+<!--                                <field name="key_benefits"/>-->
+<!--                                <field name="emotional_profile"/>-->
+<!--                                <field name="link_to_wiki"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="FP Specs" name="fp_specs" attrs="{'invisible': [('product_group', '!=', 'finished_product')]}">-->
+<!--                        <group name="fp_specs">-->
+<!--                            <group>-->
+<!--                                <field name="customer_id" options="{'no_create': True, 'no_create_edit': True}"/>-->
+<!--                                <field name="viscosity_range" />-->
+<!--                                <field name="ph_range" />-->
+<!--                                <field name="basic_color_id" context="{'default_field_name': 'basic.color'}"/>-->
+<!--                                <field name="colour_description" />-->
+<!--                                <field name="aromatic_description" />-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="formulation_type" />-->
+<!--                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>-->
+<!--                                <field name="product_benefits" />-->
+<!--                                <label for="product_dimensions"/>-->
+<!--                                <div class="o_row" name="product_dimensions">-->
+<!--                                    <field name="product_dimensions"/>-->
+<!--                                    <span>mm</span>-->
+<!--                                </div>-->
+<!--                                <label for="product_net_weight"/>-->
+<!--                                <div class="o_row" name="product_net_weight">-->
+<!--                                    <field name="product_net_weight"/>-->
+<!--                                    <span>g</span>-->
+<!--                                </div>-->
+<!--                                <label for="product_gross_weight"/>-->
+<!--                                <div class="o_row" name="product_gross_weight">-->
+<!--                                    <field name="product_gross_weight"/>-->
+<!--                                    <span>g</span>-->
+<!--                                </div>-->
+<!--                                <label for="product_volume"/>-->
+<!--                                <div class="o_row" name="product_volume">-->
+<!--                                    <field name="product_volume"/>-->
+<!--                                    <span>ml</span>-->
+<!--                                </div>-->
+<!--                                <label for="use_after_opening"/>-->
+<!--                                <div class="o_row" name="use_after_opening">-->
+<!--                                    <field name="use_after_opening"/>-->
+<!--                                    <span>days</span>-->
+<!--                                </div>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="PP Specs" name="pp_specs" attrs="{'invisible': [('product_group', 'not in', ['packaging', 'packaging_client'])]}">-->
+<!--                        <group name="pp_specs">-->
+<!--                            <group>-->
+<!--                                <field name="type_of_packaging_id" context="{'default_field_name': 'type.packaging'}"/>-->
+<!--                                <field name="type_of_material_id" context="{'default_field_name': 'type.material'}"/>-->
+<!--                                <field name="type_of_dispenser_id" context="{'default_field_name': 'type.dispenser'}"/>-->
+<!--                                <field name="type_of_caps_id" context="{'default_field_name': 'type.caps'}"/>-->
+<!--                                <field name="packaging_status" />-->
+<!--                                <field name="stock_ownership" />-->
+<!--                                <field name="for_client_product_id" options="{'no_create': True, 'no_create_edit': True}"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>-->
+<!--                                <field name="shape_of_the_packaging_id" context="{'default_field_name': 'shape.packaging'}"/>-->
+<!--                                <field name="neck_size_id" context="{'default_field_name': 'neck.size'}"/>-->
+<!--                                <field name="dispensing_volume" />-->
+<!--                                <field name="basic_color_id" context="{'default_field_name': 'basic.color'}"/>-->
+<!--                                <field name="colour_description" string="Panton Nr &amp; Colour Description"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Formulation Specs" name="formulation_specs" attrs="{'invisible': [('product_group', '!=', 'formulation')]}">-->
+<!--                        <group name="formulation_specs">-->
+<!--                            <group>-->
+<!--                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>-->
+<!--                                <field name="product_benefits" />-->
+<!--                                <field name="viscosity" />-->
+<!--                                <field name="specific_weight" />-->
+<!--                                <field name="ph_value" />-->
+<!--                                <field name="total_ingredients" readonly="1" />-->
+<!--                                <field name="total_co_ingredients" readonly="1" />-->
+<!--                                <field name="total_natural_ingredients" readonly="1" />-->
+<!--                                <field name="total_synthetic_ingredients" readonly="1" />-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="strength_of_aroma_id" context="{'default_field_name': 'strength.aroma'}"/>-->
+<!--                                <field name="aromatic_description"/>-->
+<!--                                <field name="basic_color_id" string="Strength of Colour" context="{'default_field_name': 'basic.color'}"/>-->
+<!--                                <field name="colour_description" string="Panton Nr &amp; Colour Description"/>-->
+<!--                                <field name="total_co_percentage" readonly="1" />-->
+<!--                                <field name="total_natural_percentage" readonly="1" />-->
+<!--                                <field name="total_synthetic_percentage" readonly="1" />-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="WHS" name="whs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">-->
+<!--                        <group name="whs">-->
+<!--                            <group>-->
+<!--                                <field name="whs_handling"/>-->
+<!--                                <field name="whs_storage"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="whs_fire"/>-->
+<!--                                <field name="whs_accident"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                </page>-->
                 <xpath expr="//label[@for='weight']" position="before">
                     <label for="height" />
                     <div class="o_row" name="height">
@@ -220,219 +223,223 @@
                         <field name="accounting_internal_note" nolabel='1'/>
                     </group>
                 </xpath>
-                <page name="invoicing" position="after" >
-                    <page name="rm_gmp" string="Specifications" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">
-                        <group>
-                            <group>
-                                <field name="form_id" context="{'default_field_name': 'form.product'}"/>
-                                <field name='appearance'/>
-                                <field name='aromatic_description' string='Odor'/>
-                            </group>
-                            <group>
-                                <field name="ph_value" />
-                                <field name='specific_weight'/>
-                                <field name="viscosity_range" string="Viscosity"/>
-                            </group>
-                        </group>
-                        <group name='gmp_release_specs' string='Additional Releases Specifications'>
-                            <field name="gmp_release_specs" widget="html" nolabel='1'/>
-                        </group>
-                        <group for='rm_gmp_internal_note' string='Internal Notes'>
-                            <field name='rm_gmp_internal_note' widget="html" nolabel='1'/>
-                        </group>
-                    </page>
-                    <page string="Characteristics" name="rm_specs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">
-                        <group name="rm_specs">
-                            <group>
-                                <field name="inci_name"/>
-                                <field name="country_of_origin_id"/>
-                                <field name="raw_material_source_id" context="{'default_field_name': 'raw.material.source'}"/>
-                                <field name="plant_part_id" context="{'default_field_name': 'plant.part'}"/>
-                                <field name="link_to_wiki"/>
-                            </group>
-                            <group>
-                                <field name="cas_number"/>
-                                <field name="aromatherapy_note_id" context="{'default_field_name': 'aromatherapy.note'}"/>
-                                <field name="strength_of_aroma_id" context="{'default_field_name': 'strength.aroma'}"/>
-                                <field name="aromatic_category_id" context="{'default_field_name': 'aromatherapy.category'}"/>
-                                <field name="colour_description"/>
-                            </group>
-                        </group>
-                        <group>
-                            <field name="emotional_profile" widget="html"/>
-                            <field name="aromatic_description" widget="html"/>
-                            <field name='additional_characteristic_info' widget="html"/>
-                            <field name="traditional_uses" widget="html"/>
-                            <field name="key_benefits" widget="html"/>
-                            <field name="blends_well_with" widget="html"/>
-                            <field name='additional_marketing_support_info' widget="html"/>
-                            <field name='rm_gmp_internal_note' string='Internal Notes' widget="html"/>
-                        </group>
-                    </page>
-                    <page name="fp_gmp" string="Specifications" attrs="{'invisible': [('product_group', '!=', 'finished_product')]}">
-                            <group string='Additional Release Information and Specifications'>
-                                <field name='additional_gmp_info_spec' nolabel='1' widget="html"/>
-                            </group>
-                            <group string="Internal Notes">
-                                <field name='fp_specifications_internal_note' nolabel='1' widget="html"/>
-                            </group>
-                    </page>
-                    <page string="Characteristics" name="fp_specs" attrs="{'invisible': [('product_group', '!=', 'finished_product')]}">
-                        <group name="fp_specs">
-                            <group>
-                                <field name="customer_id" options="{'no_create': True, 'no_create_edit': True}"/>
-                                <label for="product_net_weight"/>
-                                <div class="o_row" name="product_net_weight">
-                                    <field name="product_net_weight"/>
-                                    <span>g</span>
-                                </div>
-                                <label for="product_gross_weight"/>
-                                <div class="o_row" name="product_gross_weight">
-                                    <field name="product_gross_weight"/>
-                                    <span>g</span>
-                                </div>
-                                <field name='shelf_life'/>
-                            </group>
-                            <group>
-                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>
-                                <label for="product_dimensions"/>
-                                <div class="o_row" name="product_dimensions">
-                                    <field name="product_dimensions"/>
-                                    <span>mm</span>
-                                </div>
-                                <label for="use_after_opening"/>
-                                <div class="o_row" name="use_after_opening">
-                                    <field name="use_after_opening"/>
-                                    <span>days</span>
-                                </div>
-                            </group>
-                        </group>
-                        <group col='3'>
-                            <group>
-                                <field name='pet_test_required'/>
-                                <field name='pet_test_passed_date'/>
-                            </group>
-                            <group>
-                                <field name='stability_test_required'/>
-                                <field name='stability_test_passed_date'/>
-                            </group>
-                            <group>
-                                <field name='clinical_test_required'/>
-                                <field name='clinical_test_passed_date'/>
-                            </group>
-                        </group>
-                        <group>
-                            <field name='additional_characteristic_info'/>
-                            <field name="product_benefits" />
-                            <field name='additional_marketing_support_info'/>
-                        </group>
-                        <group>
-                            <group string='List Of Components'>
-                                <field name='list_of_components' nolabel='1' widget="html"/>
-                            </group>
-                            <group string='List Of Services'>
-                                <field name='list_of_sevices' nolabel='1' widget="html"/>
-                            </group>
-                        </group>
-                        <group string="Internal Notes">
-                            <field name='fp_characteristic_internal_note' nolabel='1' widget="html"/>
-                        </group>
-                    </page>
-                    <page name="pp_gmp" string="Specifications" attrs="{'invisible': [('product_group', 'not in', ['packaging', 'packaging_client'])]}">
-                        <group>
-                            <group>
-                                <field name="basic_color_id" context="{'default_field_name': 'basic.color'}"/>
-                            </group>
-                            <group>
-                                <field name="type_of_material_id" context="{'default_field_name': 'type.material'}"/>
-                                <field name="colour_description" string="Panton Nr &amp; Colour Description"/>
-                            </group>
-                        </group>
-                        <group>
-                            <field name='dimensions_additional_gmp_spec' widget="html"/>
-                            <field name='packaging_specifications_internal_note' widget="html" string='Internal Notes'/>
-                        </group>
-                    </page>
-                    <page string="Characteristics" name="pp_specs" attrs="{'invisible': [('product_group', 'not in', ['packaging', 'packaging_client'])]}">
-                        <group name="pp_specs">
-                            <group>
-                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>
-                                <field name="primary_product_id" domain="[('product_group','=','finished_product')]"/>
-                                <field name="other_product_id"/>
-                                <field name="shape_of_the_packaging_id" context="{'default_field_name': 'shape.packaging'}"/>
-                            </group>
-                            <group>
-                                <field name="type_of_dispenser_id" string="Primary Closure" context="{'default_field_name': 'type.dispenser'}"/>
-                                <field name="dispensing_volume" />
-                                <field name="type_of_caps_id" string="Secondary Closure" context="{'default_field_name': 'type.caps'}"/>
-                                <field name="neck_size_id" context="{'default_field_name': 'neck.size'}"/>
-                            </group>
-                        </group>
-                        <group>
-                            <field name='additional_characteristic_info' widget="html"/>
-                            <field name='packaging_characteristic_internal_note' string='Internal Notes' widget="html"/>
-                        </group>
-                    </page>
-                    <page string="Specifications" name='f_gmp' attrs="{'invisible': [('product_group', '!=', 'formulation')]}">
-                        <group>
-                            <group>
-                                <field name='appearance'/>
-                                <field name='specific_weight'/>
-                                <field name='ph_range'/>
-                            </group>
-                            <group>
-                                <field name="aromatic_description" string="Odour Description" widget="html"/>
-                                <field name="viscosity_range" />
-                            </group>
-                        </group>
-                        <group string='Additional Releases Specifications'>
-                            <field name='gmp_release_specs' nolabel='1' widget="html"/>
-                        </group>
-                        <group string='Internal Notes'>
-                            <field name='formulation_specifications_internal_note' nolabel='1' widget="html"/>
-                        </group>
-                    </page>
-                    <page string="Characteristics" name="formulation_specs" attrs="{'invisible': [('product_group', '!=', 'formulation')]}">
-                        <group name="formulation_specs">
-                            <group>
-                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>
-                                <field name="total_co_ingredients" readonly="1" />
-                                <field name="total_natural_ingredients" readonly="1" />
-                                <field name="total_synthetic_ingredients" readonly="1" />
-                            </group>
-                            <group>
-                                <field name="total_ingredients" readonly="1" />
-                                <field name="total_co_percentage" readonly="1" />
-                                <field name="total_natural_percentage" readonly="1" />
-                                <field name="total_synthetic_percentage" readonly="1" />
-                            </group>
-                        </group>
-                        <group string='Additional Characteristic Information'>
-                            <field name='additional_characteristic_info' nolabel='1' widget="html"/>
-                        </group>
-                        <group  string='Product benefits'>
-                            <field name='product_benefits' nolabel='1' widget="html"/>
-                        </group>
-                        <group  string='Additional Marketing Support Information'>
-                            <field name='additional_marketing_support_info' nolabel='1' widget="html"/>
-                        </group>
-                        <group  string='Internal Notes'>
-                            <field name='formulation_characteristic_internal_note' nolabel='1' widget="html"/>
-                        </group>
-                    </page>
-                    <page string="WHS" name="whs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">
-                        <group name="whs">
-                            <group>
-                                <field name="whs_handling"/>
-                                <field name="whs_storage"/>
-                            </group>
-                            <group>
-                                <field name="whs_fire"/>
-                                <field name="whs_accident"/>
-                            </group>
-                        </group>
-                    </page>
-                </page>
+
+                <!--                these lines of code are commented to make the view of product.template and product.product same-->
+
+
+<!--                <page name="invoicing" position="after" >-->
+<!--                    <page name="rm_gmp" string="Specifications" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">-->
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="form_id" context="{'default_field_name': 'form.product'}"/>-->
+<!--                                <field name='appearance'/>-->
+<!--                                <field name='aromatic_description' string='Odor'/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="ph_value" />-->
+<!--                                <field name='specific_weight'/>-->
+<!--                                <field name="viscosity_range" string="Viscosity"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group name='gmp_release_specs' string='Additional Releases Specifications'>-->
+<!--                            <field name="gmp_release_specs" widget="html" nolabel='1'/>-->
+<!--                        </group>-->
+<!--                        <group for='rm_gmp_internal_note' string='Internal Notes'>-->
+<!--                            <field name='rm_gmp_internal_note' widget="html" nolabel='1'/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Characteristics" name="rm_specs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">-->
+<!--                        <group name="rm_specs">-->
+<!--                            <group>-->
+<!--                                <field name="inci_name"/>-->
+<!--                                <field name="country_of_origin_id"/>-->
+<!--                                <field name="raw_material_source_id" context="{'default_field_name': 'raw.material.source'}"/>-->
+<!--                                <field name="plant_part_id" context="{'default_field_name': 'plant.part'}"/>-->
+<!--                                <field name="link_to_wiki"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="cas_number"/>-->
+<!--                                <field name="aromatherapy_note_id" context="{'default_field_name': 'aromatherapy.note'}"/>-->
+<!--                                <field name="strength_of_aroma_id" context="{'default_field_name': 'strength.aroma'}"/>-->
+<!--                                <field name="aromatic_category_id" context="{'default_field_name': 'aromatherapy.category'}"/>-->
+<!--                                <field name="colour_description"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="emotional_profile" widget="html"/>-->
+<!--                            <field name="aromatic_description" widget="html"/>-->
+<!--                            <field name='additional_characteristic_info' widget="html"/>-->
+<!--                            <field name="traditional_uses" widget="html"/>-->
+<!--                            <field name="key_benefits" widget="html"/>-->
+<!--                            <field name="blends_well_with" widget="html"/>-->
+<!--                            <field name='additional_marketing_support_info' widget="html"/>-->
+<!--                            <field name='rm_gmp_internal_note' string='Internal Notes' widget="html"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page name="fp_gmp" string="Specifications" attrs="{'invisible': [('product_group', '!=', 'finished_product')]}">-->
+<!--                            <group string='Additional Release Information and Specifications'>-->
+<!--                                <field name='additional_gmp_info_spec' nolabel='1' widget="html"/>-->
+<!--                            </group>-->
+<!--                            <group string="Internal Notes">-->
+<!--                                <field name='fp_specifications_internal_note' nolabel='1' widget="html"/>-->
+<!--                            </group>-->
+<!--                    </page>-->
+<!--                    <page string="Characteristics" name="fp_specs" attrs="{'invisible': [('product_group', '!=', 'finished_product')]}">-->
+<!--                        <group name="fp_specs">-->
+<!--                            <group>-->
+<!--                                <field name="customer_id" options="{'no_create': True, 'no_create_edit': True}"/>-->
+<!--                                <label for="product_net_weight"/>-->
+<!--                                <div class="o_row" name="product_net_weight">-->
+<!--                                    <field name="product_net_weight"/>-->
+<!--                                    <span>g</span>-->
+<!--                                </div>-->
+<!--                                <label for="product_gross_weight"/>-->
+<!--                                <div class="o_row" name="product_gross_weight">-->
+<!--                                    <field name="product_gross_weight"/>-->
+<!--                                    <span>g</span>-->
+<!--                                </div>-->
+<!--                                <field name='shelf_life'/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>-->
+<!--                                <label for="product_dimensions"/>-->
+<!--                                <div class="o_row" name="product_dimensions">-->
+<!--                                    <field name="product_dimensions"/>-->
+<!--                                    <span>mm</span>-->
+<!--                                </div>-->
+<!--                                <label for="use_after_opening"/>-->
+<!--                                <div class="o_row" name="use_after_opening">-->
+<!--                                    <field name="use_after_opening"/>-->
+<!--                                    <span>days</span>-->
+<!--                                </div>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group col='3'>-->
+<!--                            <group>-->
+<!--                                <field name='pet_test_required'/>-->
+<!--                                <field name='pet_test_passed_date'/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name='stability_test_required'/>-->
+<!--                                <field name='stability_test_passed_date'/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name='clinical_test_required'/>-->
+<!--                                <field name='clinical_test_passed_date'/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name='additional_characteristic_info'/>-->
+<!--                            <field name="product_benefits" />-->
+<!--                            <field name='additional_marketing_support_info'/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <group string='List Of Components'>-->
+<!--                                <field name='list_of_components' nolabel='1' widget="html"/>-->
+<!--                            </group>-->
+<!--                            <group string='List Of Services'>-->
+<!--                                <field name='list_of_sevices' nolabel='1' widget="html"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group string="Internal Notes">-->
+<!--                            <field name='fp_characteristic_internal_note' nolabel='1' widget="html"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page name="pp_gmp" string="Specifications" attrs="{'invisible': [('product_group', 'not in', ['packaging', 'packaging_client'])]}">-->
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="basic_color_id" context="{'default_field_name': 'basic.color'}"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="type_of_material_id" context="{'default_field_name': 'type.material'}"/>-->
+<!--                                <field name="colour_description" string="Panton Nr &amp; Colour Description"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name='dimensions_additional_gmp_spec' widget="html"/>-->
+<!--                            <field name='packaging_specifications_internal_note' widget="html" string='Internal Notes'/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Characteristics" name="pp_specs" attrs="{'invisible': [('product_group', 'not in', ['packaging', 'packaging_client'])]}">-->
+<!--                        <group name="pp_specs">-->
+<!--                            <group>-->
+<!--                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>-->
+<!--                                <field name="primary_product_id" domain="[('product_group','=','finished_product')]"/>-->
+<!--                                <field name="other_product_id"/>-->
+<!--                                <field name="shape_of_the_packaging_id" context="{'default_field_name': 'shape.packaging'}"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="type_of_dispenser_id" string="Primary Closure" context="{'default_field_name': 'type.dispenser'}"/>-->
+<!--                                <field name="dispensing_volume" />-->
+<!--                                <field name="type_of_caps_id" string="Secondary Closure" context="{'default_field_name': 'type.caps'}"/>-->
+<!--                                <field name="neck_size_id" context="{'default_field_name': 'neck.size'}"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name='additional_characteristic_info' widget="html"/>-->
+<!--                            <field name='packaging_characteristic_internal_note' string='Internal Notes' widget="html"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Specifications" name='f_gmp' attrs="{'invisible': [('product_group', '!=', 'formulation')]}">-->
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name='appearance'/>-->
+<!--                                <field name='specific_weight'/>-->
+<!--                                <field name='ph_range'/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="aromatic_description" string="Odour Description" widget="html"/>-->
+<!--                                <field name="viscosity_range" />-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group string='Additional Releases Specifications'>-->
+<!--                            <field name='gmp_release_specs' nolabel='1' widget="html"/>-->
+<!--                        </group>-->
+<!--                        <group string='Internal Notes'>-->
+<!--                            <field name='formulation_specifications_internal_note' nolabel='1' widget="html"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Characteristics" name="formulation_specs" attrs="{'invisible': [('product_group', '!=', 'formulation')]}">-->
+<!--                        <group name="formulation_specs">-->
+<!--                            <group>-->
+<!--                                <field name="brand_name_id" context="{'default_field_name': 'brand.name'}"/>-->
+<!--                                <field name="total_co_ingredients" readonly="1" />-->
+<!--                                <field name="total_natural_ingredients" readonly="1" />-->
+<!--                                <field name="total_synthetic_ingredients" readonly="1" />-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="total_ingredients" readonly="1" />-->
+<!--                                <field name="total_co_percentage" readonly="1" />-->
+<!--                                <field name="total_natural_percentage" readonly="1" />-->
+<!--                                <field name="total_synthetic_percentage" readonly="1" />-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                        <group string='Additional Characteristic Information'>-->
+<!--                            <field name='additional_characteristic_info' nolabel='1' widget="html"/>-->
+<!--                        </group>-->
+<!--                        <group  string='Product benefits'>-->
+<!--                            <field name='product_benefits' nolabel='1' widget="html"/>-->
+<!--                        </group>-->
+<!--                        <group  string='Additional Marketing Support Information'>-->
+<!--                            <field name='additional_marketing_support_info' nolabel='1' widget="html"/>-->
+<!--                        </group>-->
+<!--                        <group  string='Internal Notes'>-->
+<!--                            <field name='formulation_characteristic_internal_note' nolabel='1' widget="html"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="WHS" name="whs" attrs="{'invisible': [('product_group', 'not in', ['raw_material', 'raw_material_client'])]}">-->
+<!--                        <group name="whs">-->
+<!--                            <group>-->
+<!--                                <field name="whs_handling"/>-->
+<!--                                <field name="whs_storage"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="whs_fire"/>-->
+<!--                                <field name="whs_accident"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                </page>-->
                 <xpath expr="//label[@for='weight']" position="before">
                     <label for="height" />
                     <div class="o_row" name="height">

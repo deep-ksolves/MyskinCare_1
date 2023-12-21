@@ -5,6 +5,8 @@ class MrpBom(models.Model):
     _inherit = 'mrp.bom'
 
     components_ids = fields.One2many('mysm.component.composition', 'mrp_bom_id', string='Ingredients')
+    has_allergen = fields.Boolean(compute="check_allergen")
+    mo_ids = fields.One2many('mrp.production', 'bom_id',string="Manufacturing Order")
 
     def action_compute(self):
         product_uom = self.product_uom_id
@@ -40,14 +42,44 @@ class MrpBom(models.Model):
                         product_ids.append(allergen_product_id)
                         allergen_dict[allergen_id].update({
                             'product_ids': [(6, 0, product_ids)],
-                            'percent_formulation': allergen_dict[allergen_id]['percent_formulation'] + percent_formulation
+                            'percent_formulation': allergen_dict[allergen_id][
+                                                       'percent_formulation'] + percent_formulation
                         })
             else:
                 continue
         ingredients = self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)]).component_ids
         if ingredients:
             self.components_ids = [(5, 0, 0)]
-            self.components_ids = [(6 ,0 ,ingredients.ids)]
+            self.components_ids = [(6, 0, ingredients.ids)]
         for value in allergen_dict.values():
             allergen_list.append((0, 0, value))
         self.allergen_composition_ids = allergen_list
+
+    def generate_report_pif_for_formulation(self, val):
+        if val == 'External':
+            report = self.env.ref('ks_my_skincare.action_report_pif_for_formulation_external')
+        else:
+            report = self.env.ref('ks_my_skincare.action_report_pif_for_formulation_internal')
+        return report.report_action(self, config=False)
+
+    def generate_allergen_list(self):
+        self.ensure_one()
+        allergen_list = []
+
+        for bom_line in self.bom_line_ids.sorted('percentage', reverse=True):
+            product = bom_line.product_id
+            if product.product_group == 'raw_material':
+                allergens = self.env['mysm.allergen.composition'].search([('product_id', '=', product.id)]).mapped(
+                    'allergen_id').mapped('name')
+                for allergen in allergens:
+                    ingredient = '*' + allergen if not allergen_list else allergen
+                    allergen_list.append(ingredient)
+        allergen_string = ', '.join(allergen_list)
+        return allergen_string
+
+    def check_allergen(self):
+        count = 0
+        for bom_line in self.bom_line_ids:
+            if bom_line.product_id.product_tmpl_id.has_allergens:
+                count += 1
+        self.has_allergen = True if count > 0 else False

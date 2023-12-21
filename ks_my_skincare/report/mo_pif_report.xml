@@ -1,41 +1,579 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-        <template id="mo_pif_report_custom" inherit_id="mysm_inventory.product_mo_pif_finished_product_report_document">
-            <xpath expr="//tbody/t[@t-foreach='doc.move_raw_ids']" position="replace">
-                <tbody>
-                    <t t-foreach="doc.move_raw_ids" t-as="move">
-                        <t t-if="move.product_id.has_components">
-                            <t t-set="components" t-value="move.get_components()"/>
-                            <t t-foreach="components" t-as="component">
-                                <tr>
-                                    <td>
-                                        <t t-esc="component.get('name')"/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <t t-esc="component.get('percentage')"/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <t t-esc="move.product_uom.name"/>
-                                    </td>
-                                </tr>
-                            </t>
-                        </t>
-                        <t t-else="">
+        <template id="pif_layout_report_custom">
+            <style>
+                .header {
+                background-color: #f0f0f0;
+                padding: 10px;
+                text-align: center;
+                }
+            </style>
+            <div class="header">
+                <table class="table"
+                       style="font-size: 20px; background-color: #7dcbf1;">
+                    <tbody style="border-top: none; border-bottom: none;  height:0px; ">
+                        <tr>
+                            <td width="33.33%" style="border-top:0px;">
+                                <strong style="font-style: italic;">Finished product PIF for:</strong>
+                            </td>
+                            <td width="33.33%" style="text-align: left">
+                                <span t-esc="product.brand_name_id.name"/>
+                            </td>
+                            <td width="33.33%" style="text-align: left">
+                                <span t-esc="product.name"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <t t-out="0"/>
+            <div class="footer row">
+                <table class="table"
+                       style="font-size:15px; width:100% !important; height:0px; border: none; border-top: none;">
+                    <tbody>
+                        <tr>
+                            <td width="40%"
+                                style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px;text-align: center">
+                                <strong>Printing date and time:</strong>
+                                <span t-esc="product.get_datetime_now_with_tz() if product else datetime.datetime.utcnow().strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </td>
+                            <td width="40" style="border-top:0px; white-space: nowrap; padding: 5px">
+
+                            </td>
+                            <td width="20%"
+                                style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px;text-align: center">
+                                <strong>Page:</strong>
+                                <span class="page"/>
+                                /
+                                <span class="topage"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template id="mo_pif_report_custom"
+                  inherit_id="mysm_inventory.product_mo_pif_finished_product_report_document">
+            <xpath expr="//t[@t-call='mysm_inventory.pif_layout_report']" position="replace">
+                <t t-call="ks_my_skincare.pif_layout_report_custom">
+                    <style type="text/css">
+                        .table_border{ border: 2px solid black; }
+                        .th_border{ border: 2px solid black; }
+                        .tr_border{ border: 2px solid black; }
+                        .td_border{ border: 2px solid black; }
+                    </style>
+                    <table class="table"
+                           style="font-size: 15px; width: 100% !important; margin-top: 5px; margin-bottom: 5px; border: none; border-top: none;">
+                        <tbody style="line-height: 1;">
                             <tr>
-                                <td>
-                                    <t t-esc="move.product_id.name"/>
+                                <td width="20%" style="border-top:0px; white-space: nowrap; padding: 8px">
+                                    <strong>Brand name:</strong>
                                 </td>
-                                <td style="text-align: center;">
-                                    <t t-esc="move.product_uom_qty"/>
+                                <td width="60%"
+                                    style="border:12px solid white; border-top:0px; background-color: #f0f0f0; padding: 8px">
+                                    <span t-esc="product.brand_name_id.name"/>
                                 </td>
-                                <td style="text-align: center;">
-                                    <t t-esc="move.product_uom.name"/>
+                                <td width="20%" rowspan="3" style="text-align: right; border-top:0px;">
+                                    <img t-att-src="image_data_uri(product.generate_qr_code())"
+                                         style="width:130px; height:130px;"
+                                         alt="QR Code"/>
                                 </td>
                             </tr>
-                        </t>
-                    </t>
-                </tbody>
+                            <tr>
+                                <td width="20%" style="border-top:0px; white-space: nowrap; padding: 8px">
+                                    <strong>MySM SKU NR:</strong>
+                                </td>
+                                <td width="60%"
+                                    style="border:12px solid white; border-top:0px; background-color: #f0f0f0; padding: 8px">
+                                    <span t-esc="product.default_code"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%" style="border-top:0px; white-space: nowrap; padding: 8px">
+                                    <strong>Product category:</strong>
+                                </td>
+                                <td width="60%"
+                                    style="border:12px solid white; border-top:0px; background-color: #f0f0f0; padding: 8px">
+                                    <span style="" t-esc="product.categ_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%" style="border-top:0px; white-space: nowrap; padding: 8px">
+                                    <strong>Product description:</strong>
+                                </td>
+                                <td width="80%" colspan="2"
+                                    style="border:12px solid white; border-top:0px; background-color: #f0f0f0; padding: 8px">
+                                    <span t-raw="product.product_description"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table"
+                           style="font-size: 15px; width: 100% !important; margin-top: 5px; margin-bottom: 5px; border: none; border-top: none;">
+                        <tbody style="line-height: 1;">
+                            <tr>
+                                <td colspan="5" style="text-align: center; border-top: 0px; width: 33.33%;">
+                                    <strong>Product image without cartons:</strong>
+                                    <img t-if="product.image_package2"
+                                         t-att-src="image_data_uri(product.image_package2)"
+                                         style="max-width: 100%; max-height: 100%; object-fit: contain; height: 210px;"
+                                         alt="Product image without cartons"/>
+                                </td>
+                                <td colspan="5" style="text-align: center; border-top: 0px; width: 33.33%;">
+                                    <strong>Product image without cartons:</strong>
+                                    <img t-if="product.image_package" t-att-src="image_data_uri(product.image_package)"
+                                         style="max-width: 100%; max-height: 100%; object-fit: contain; height: 210px;"
+                                         alt="Product image without cartons"/>
+                                </td>
+                                <t t-set="len_product_images" t-value="len(product.product_template_image_ids)"/>
+                                <td colspan="5" style="text-align: center; border-top: 0px; width: 33.33%;">
+                                    <strong>Product image packed already in carton:</strong>
+                                    <img t-if="product.image_1920" t-att-src="image_data_uri(product.image_1920)"
+                                         style="max-width: 100%; max-height: 100%; object-fit: contain; height: 210px;"
+                                         alt="Product image packed already in carton"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table"
+                           style="font-size: 15px; width: 100% !important; margin-top: 5px; margin-bottom: 5px; border: none; border-top: none;">
+                        <tbody style="border-top: none; border-bottom: none;">
+                            <tr>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Label fill Volume /Weight:</strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.label_fill_volume_weight"/>
+                                </td>
+                                <td width="10%" style="border-top:0px; white-space: nowrap; padding: 3px">
+
+                                </td>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Product Dimensions (mm)</strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.product_dimensions"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Converted fill weight (g):</strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.converted_fill_weight"/>
+                                </td>
+                                <td width="10%" style="border-top:0px; white-space: nowrap; padding: 3px">
+
+                                </td>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Product nett weight (g):</strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.product_net_weight"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Min. fill weight:</strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.min_fill_weight"/>
+                                </td>
+                                <td width="10%" style="border-top:0px; white-space: nowrap; padding: 3px">
+
+                                </td>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Product gross weight (g):</strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.product_gross_weight"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Max. fill weight:</strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.max_fill_weight"/>
+                                </td>
+                                <td width="10%" style="border-top:0px; white-space: nowrap; padding: 3px">
+
+                                </td>
+                                <td width="25%" style="border-top:0px; white-space: nowrap; padding: 3px">
+                                    <strong>Specific weight (g.cm<sup>3</sup>)
+                                    </strong>
+                                </td>
+                                <td width="20%"
+                                    style="border:10px solid white; border-top:0px; background-color: #f0f0f0; padding: 3px">
+                                    <span t-esc="product.specific_weight"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="page-break-inside: avoid;">
+                        <div class="row text-center mb-2" style="font-size: 25px; background-color: #7dcbf1;">
+                            <div class="col-12">
+                                <strong style="font-style: italic;">Finished product BOM list</strong>
+                            </div>
+                        </div>
+                        <table class="table_border"
+                               style="font-size: 15px; width: 100% !important; height: 0px;">
+                            <thead>
+                                <tr>
+                                    <th class="th_border" style="text-align: center; padding: 5px;">Product Group:</th>
+                                    <th class="th_border" style="text-align: center; padding: 5px;">SKU NR</th>
+                                    <th class="th_border" style="text-align: center; padding: 5px;">QTY</th>
+                                    <th class="th_border" style="text-align: center; padding: 5px;">Product
+                                        Description
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.move_raw_ids" t-as="move">
+                                    <tr class="tr_border">
+                                        <td class="tr_border" style="padding: 5px;">
+                                            <t t-esc="dict(move.product_id.fields_get(allfields=['product_group'])['product_group']['selection'])[move.product_id.product_group]"/>
+                                        </td>
+                                        <td class="tr_border" style="padding: 5px;">
+                                            <t t-esc="move.product_id.default_code"/>
+                                        </td>
+                                        <td class="tr_border" style="text-align: center; padding: 5px;">
+                                            <t t-esc="move.product_uom_qty"/>
+                                        </td>
+                                        <td class="tr_border" style="padding: 5px;">
+                                            <t t-esc="move.product_id.name"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <div class="row text-center mb-2"
+                         style="font-size: 15px; border: 2px solid black; page-break-inside: avoid;">
+                        Explanation text
+                        <br/>
+                        <br/>
+                    </div>
+                    <div style="page-break-inside: avoid;">
+                        <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                            <div class="col-12">
+                                <strong style="font-style: italic;">Label claims:</strong>
+                            </div>
+                        </div>
+                        <div class="row text-center mb-2"
+                             style="font-size: 15px; border: 2px solid black;">
+                            <span t-raw="product.product_benefits"/>
+                        </div>
+                    </div>
+                    <div style="page-break-inside: avoid;">
+                        <div class="row" style="font-size: 20px; border: 2px solid black;">
+                            <div class="col-12">
+                                <p style="font-style: italic;">Disclaimer</p>
+                                <br/>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div style="page-break-inside: avoid;">
+                        <table class="table_border"
+                               style="font-size:15px;border-collapse:collapse !important;width:100% !important;height:0px">
+                            <thead style="background-color: #7dcbf1;">
+                                <tr>
+                                    <th class="th_border" style="text-align: center; padding: 5px;font-style: italic;">
+                                        List of services
+                                    </th>
+                                    <th class="th_border" style="text-align: center; padding: 5px;font-style: italic;">
+                                        List of Additional
+                                        Components:
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-top: none; border-bottom: none;">
+                                <tr>
+                                    <td class="tr_border" style="padding: 5px;">
+                                        <t t-raw="product.list_of_sevices"/>
+                                    </td>
+                                    <td class="tr_border" style="padding: 5px;">
+                                        <t t-raw="product.list_of_components"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <table class="table"
+                           style="font-size: 15px; width: 100% !important; margin-top: 5px; margin-bottom: 5px; border: none; border-top: none;">
+                        <tbody style="line-height: 1;">
+                            <tr>
+                                <td colspan="5" style="text-align: center; border-top: 0px; width: 33.33%;">
+                                    <strong>Label position image</strong>
+                                    <img t-if="product.label_position_image"
+                                         t-att-src="image_data_uri(product.label_position_image)"
+                                         style="max-width: 100%; max-height: 100%; object-fit: contain; height: 210px;"
+                                         alt="Product image without cartons"/>
+                                </td>
+                                <td colspan="5" style="text-align: center; border-top: 0px; width: 33.33%;">
+                                    <strong>Batch Number image</strong>
+                                    <img t-if="product.batch_number_image"
+                                         t-att-src="image_data_uri(product.batch_number_image)"
+                                         style="max-width: 100%; max-height: 100%; object-fit: contain; height: 210px;"
+                                         alt="Product image without cartons"/>
+                                </td>
+                                <t t-set="len_product_images" t-value="len(product.product_template_image_ids)"/>
+                                <td colspan="5" style="text-align: center; border-top: 0px; width: 33.33%;">
+                                    <strong>Some other detailed images</strong>
+                                    <img t-if="product.detailed_image"
+                                         t-att-src="image_data_uri(product.detailed_image)"
+                                         style="max-width: 100%; max-height: 100%; object-fit: contain; height: 210px;"
+                                         alt="Product image packed already in carton"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div style="page-break-inside: avoid;">
+                        <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                            <div class="col-12">
+                                <strong style="font-style: italic;">Ingredient list:
+                                    <span style="font-size: 20px;">(Ingredient list in a right descending order:)</span>
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12" style="border: 2px solid black">
+                                <span t-if="product.bom_ids">
+                                    <t t-esc="product.bom_ids[0].generate_ingredient_list()"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row text-center mb-2"
+                             style="font-size: 20px; border: 2px solid black; page-break-inside: avoid;">
+                            Disclaimer
+                        </div>
+                    </div>
+                    <br/>
+                    <div style="page-break-inside: avoid;">
+                        <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                            <div class="col-12">
+                                <strong style="font-style: italic;">Set specification after PET &amp; Stability Test
+                                </strong>
+                            </div>
+                        </div>
+                        <table class="table"
+                               style="font-size:15px; width:100% !important; height:0px; border: none; border-top: none;">
+                            <tbody style="border-top: none; border-bottom: none;">
+                                <tr>
+                                    <td width="15%" style="border-top:0px; white-space: nowrap; padding: 5px">
+                                        <strong>PET Test requested:</strong>
+                                    </td>
+                                    <td width="15%"
+                                        style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.pet_test_required and 'Y' or 'N'"/>
+                                    </td>
+
+                                    <td width="2%" style="border-top:0px; white-space: nowrap; padding: 5px">
+
+                                    </td>
+                                    <td width="15%" style="border-top:0px; white-space: nowrap; padding: 5px">
+                                        <strong>Stability test requested:</strong>
+                                    </td>
+                                    <td width="15%"
+                                        style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.stability_test_required and 'Y' or 'N'"/>
+                                    </td>
+                                    <td width="2%" style="border-top:0px; white-space: nowrap; padding: 5px">
+
+                                    </td>
+                                    <td width="36%"
+                                        style="border-top:0px; white-space: nowrap; padding: 5px; text-align:center">
+                                        <strong>Clinical tests passed:</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+                                        <strong>PET Test passed date:</strong>
+                                    </td>
+                                    <td style="border:6px solid white; border-top:0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.pet_test_passed_date"/>
+                                    </td>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+
+                                    </td>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+                                        <strong>Stability test passed date:</strong>
+                                    </td>
+                                    <td style="border:6px solid white; border-top:0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.stability_test_passed_date"/>
+                                    </td>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+
+                                    </td>
+                                    <td rowspan="2"
+                                        style="border:6px solid white; border-top:0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.clinical_tests_passed"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+                                        <strong>Shelf life:</strong>
+                                    </td>
+                                    <td style="border:6px solid white; border-top:0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.shelf_life"/>
+                                    </td>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+
+                                    </td>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+                                        <strong>Use after opening:</strong>
+                                    </td>
+                                    <td style="border:6px solid white; border-top:0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.use_after_opening"/>
+                                    </td>
+                                    <td style="border-top:0px; white-space: nowrap; padding: 5px">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mb-2" style="page-break-inside: avoid;">
+                        <div class="col-12"
+                             style="font-size: 13px; color: #7dcbf1; page-break-inside: avoid;border: 2px solid black">
+                            <p style="font-weight: bold; font-style: italic;">
+                                DISCLAIMER: The expiry specifications listed above are theoretical only, based on
+                                observation and experience. Kirra strongly recommend clients conduct stability
+                                and Preservative Efficacy testing to formally establish safe Shelf Life and Use After
+                                Opening limits. This testing is the responsibility of the client and is not per-formed
+                                as a standard service by Kirra
+                            </p>
+                            <p style="font-weight: bold; font-style: italic;">
+                                If the Customer approves a commercial sample prepared by Kirra without stability and
+                                preservative efficacy testing completed, the Customer assumes all risk in
+                                relation to the Preservative Efficiency and Stability for purpose.
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <div style="page-break-inside: avoid;">
+                        <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                            <div class="col-12">
+                                <strong style="font-style: italic;">
+                                    Release Specifications
+                                    <span style="font-size: 20px;">(Bulk Product and Finished Product)</span>
+                                </strong>
+                            </div>
+                        </div>
+                        <table class="table"
+                               style="font-size: 15px; width: 100% !important; height: 0px; border: none; border-top: none;">
+                            <tbody style="border-top: none; border-bottom: none;">
+                                <tr>
+                                    <td width="15%" style="border-top: 0px; white-space: nowrap; padding: 5px">
+                                        <strong>Viscosity Range (cps):</strong>
+                                    </td>
+                                    <td width="30%"
+                                        style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.viscosity_range"/>
+                                    </td>
+                                    <td width="10%" style="border-top: 0px; white-space: nowrap; padding: 5px">
+
+                                    </td>
+                                    <td width="15%" style="border-top: 0px; white-space: nowrap; padding: 5px">
+                                        <strong>pH Range:</strong>
+                                    </td>
+                                    <td width="30%"
+                                        style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.ph_range"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" style="border-top: 0px; white-space: nowrap; padding: 5px">
+                                        <strong>Colour Description:</strong>
+                                    </td>
+                                    <td width="80%" colspan="4"
+                                        style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-esc="product.colour_description"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" style="border-top: 0px; white-space: nowrap; padding: 5px">
+                                        <strong>Aroma Description:</strong>
+                                    </td>
+                                    <td width="80%" colspan="4"
+                                        style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-raw="product.aromatic_description"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" style="border-top: 0px; white-space: nowrap; padding: 5px">
+                                        <strong>FP Release Specs:</strong>
+                                    </td>
+                                    <td width="80%" colspan="4"
+                                        style="border: 6px solid white; border-top: 0px; background-color: #f0f0f0; padding: 5px">
+                                        <span t-raw="product.fp_specifications_internal_note"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row" style="page-break-inside: avoid;">
+                        <div class="col-12"
+                             style="font-size: 13px; page-break-inside: avoid;border: 2px solid black">
+                            <p style="font-weight: bold; color: #7dcbf1; font-style: italic;">
+                                DISCLAIMER Kirra holds a retention sample from each batch of product manufactured on
+                                site. These samples are stored at a monitored temperature and hu-
+                                midity. It is Kirra’s expectation that Clients will also hold two retention sample
+                                of
+                                each batch at monitored conditions to be used in the event of a non-
+                                conformance report. Failure to provide the required samples will prevent any
+                                investigation from occurring.
+                            </p>
+                            <p style="font-weight: bold; color: black; font-style: italic;">
+                                Due to the nature of the ingredients, there may be a slightly variation in color,
+                                aroma, and viscosity (within the above-mentioned specifications).
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <div style="page-break-inside: avoid;">
+                        <div class="row text-center mb-2" style="font-size: 25px; background-color: #88cd5f;">
+                            <div class="col-12">
+                                <strong style="font-style: italic;">Internal Notes:</strong>
+                            </div>
+                        </div>
+                        <div class="row text-center mb-2"
+                             style="font-size: 15px; border: 2px solid black;">
+                            <span t-raw="product.description"/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>Signed by My Skincare Manufacturer:
+                                        ___________________
+                                    </p>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <p>Signed by Customer:
+                                        ___________________
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
             </xpath>
         </template>
     </data>
