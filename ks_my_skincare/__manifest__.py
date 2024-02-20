@@ -2,7 +2,7 @@
     'name': 'KS - MySM',
     'summary': 'Access components from the Inventory/products',
     'description': """
-Easily access any product components from your product profile.
+Easily access any product components from your product profile. 
 """,
     'author': 'Ksolves',
     'version': '15.0.0.1',
